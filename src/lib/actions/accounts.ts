@@ -4,7 +4,6 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createDefaultCategories } from "@/lib/actions/categories";
 
 const createAccountSchema = z.object({
   name: z.string().min(1, "El nombre es requerido").max(100),
@@ -67,11 +66,7 @@ export async function createAccountAction(
   _prevState: { error?: string; data?: { id: string } } | null,
   formData: FormData
 ): Promise<{ error?: string; data?: { id: string } } | null> {
-  const result = await createAccount(formData);
-  if (result?.error || !result?.data) return result ?? null;
-
-  await createDefaultCategories(result.data.id);
-  return result;
+  return createAccount(formData) ?? null;
 }
 
 export async function createAccount(formData: FormData) {

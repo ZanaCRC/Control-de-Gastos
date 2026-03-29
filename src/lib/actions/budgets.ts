@@ -21,14 +21,14 @@ async function verifyBudgetOwnership(budgetId: string) {
 
   const { data: budget } = await supabase
     .from("budgets")
-    .select("id, categories(account_id, accounts(user_id))")
+    .select("id, categories(user_id)")
     .eq("id", budgetId)
     .single();
 
   if (!budget) return { authorized: false as const };
 
-  const accounts = budget.categories as { account_id: string; accounts: { user_id: string } | null } | null;
-  if (accounts?.accounts?.user_id !== user.id) return { authorized: false as const };
+  const category = budget.categories as { user_id: string } | null;
+  if (category?.user_id !== user.id) return { authorized: false as const };
 
   return { authorized: true as const, supabase, user };
 }
@@ -42,13 +42,12 @@ async function verifyCategoryOwnership(categoryId: string) {
 
   const { data: category } = await supabase
     .from("categories")
-    .select("account_id, accounts(user_id)")
+    .select("user_id")
     .eq("id", categoryId)
     .single();
 
-  if (!category) return { authorized: false as const };
-  const accountOwner = (category.accounts as { user_id: string } | null)?.user_id;
-  if (accountOwner !== user.id) return { authorized: false as const };
+  if (!category || category.user_id !== user.id)
+    return { authorized: false as const };
 
   return { authorized: true as const, supabase, user };
 }

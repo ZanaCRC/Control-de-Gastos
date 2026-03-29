@@ -29,14 +29,10 @@ export default async function EditTransactionPage({ params }: Props) {
     .select("*")
     .eq("user_id", user!.id);
 
-  const accountIds = (accounts ?? []).map((a) => a.id);
-
-  const { data: categories } = accountIds.length
-    ? await supabase
-        .from("categories")
-        .select("*")
-        .in("account_id", accountIds)
-    : { data: [] };
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .eq("user_id", user!.id);
 
   const { data: creditCards } = await supabase
     .from("credit_cards")

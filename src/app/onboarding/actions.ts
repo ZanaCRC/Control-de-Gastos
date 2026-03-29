@@ -35,7 +35,7 @@ export async function createAccountWithDefaults(
 
   if (accountError) return { error: accountError.message };
 
-  const catResult = await createDefaultCategories(account.id);
+  const catResult = await createDefaultCategories(user.id);
   if (catResult.error) return { error: catResult.error };
 
   redirect("/");

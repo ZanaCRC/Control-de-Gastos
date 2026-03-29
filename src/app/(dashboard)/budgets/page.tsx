@@ -18,12 +18,10 @@ export default async function BudgetsPage() {
   const accountIds = (accounts ?? []).map((a) => a.id);
   const defaultCurrency = accounts?.[0]?.currency ?? "CRC";
 
-  const { data: categories } = accountIds.length
-    ? await supabase
-        .from("categories")
-        .select("*")
-        .in("account_id", accountIds)
-    : { data: [] };
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .eq("user_id", user!.id);
 
   const categoryIds = (categories ?? []).map((c) => c.id);
 
@@ -32,7 +30,7 @@ export default async function BudgetsPage() {
   const { data: budgets } = categoryIds.length
     ? await supabase
         .from("budgets")
-        .select("*, categories(id, name, color, account_id)")
+        .select("*, categories(id, name, color)")
         .in("category_id", categoryIds)
         .lte("start_date", today)
         .gte("end_date", today)

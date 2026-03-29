@@ -18,11 +18,10 @@ const COLOR_PALETTE = [
 ];
 
 interface Props {
-  accountId: string;
   categories: Tables<"categories">[];
 }
 
-export function CategoryManager({ accountId, categories }: Props) {
+export function CategoryManager({ categories }: Props) {
   const router = useRouter();
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
@@ -35,7 +34,6 @@ export function CategoryManager({ accountId, categories }: Props) {
   async function handleCreate(formData: FormData) {
     setLoading(true);
     setError(null);
-    formData.set("account_id", accountId);
     formData.set("color", selectedColor);
     const result = await createCategory(formData);
     if (result?.error) {
@@ -63,7 +61,6 @@ export function CategoryManager({ accountId, categories }: Props) {
 
   return (
     <div>
-      {/* Existing categories with delete */}
       <div className="space-y-1 mb-4">
         {categories.map((cat) => (
           <div
@@ -91,7 +88,7 @@ export function CategoryManager({ accountId, categories }: Props) {
       {showForm ? (
         <form action={handleCreate} className="space-y-3">
           <Input
-            id={`name-${accountId}`}
+            id="cat-name"
             name="name"
             label="Nombre"
             placeholder="Nueva categoría"

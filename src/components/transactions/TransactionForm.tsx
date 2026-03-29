@@ -39,10 +39,6 @@ export function TransactionForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Filter categories by selected account
-  const accountCategories = categories.filter(
-    (c) => c.account_id === selectedAccount
-  );
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
@@ -122,7 +118,7 @@ export function TransactionForm({
         name="category_id"
         label="Categoría"
         placeholder="Seleccionar categoría"
-        options={accountCategories.map((c) => ({
+        options={categories.map((c) => ({
           value: c.id,
           label: c.name,
         }))}

@@ -42,7 +42,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
   const { data: allCategories } = await supabase
     .from("categories")
     .select("*")
-    .in("account_id", accountIds);
+    .eq("user_id", user!.id);
 
   // Build query
   const { start: defaultStart, end: defaultEnd } = getMonthRange();

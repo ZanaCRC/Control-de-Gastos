@@ -5,7 +5,6 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 const createCategorySchema = z.object({
-  account_id: z.string().uuid("ID de cuenta inválido"),
   name: z.string().min(1, "El nombre es requerido").max(50),
   color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Color inválido").default("#71717a"),
   icon: z.string().max(30).nullable().optional(),
@@ -28,53 +27,39 @@ const DEFAULT_INCOME_CATEGORIES = [
   { name: "Otros ingresos", color: "#a3e635", icon: "plus" },
 ];
 
-async function verifyAccountOwnership(accountId: string) {
+async function getAuthenticatedUser() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { authorized: false as const };
-
-  const { data } = await supabase
-    .from("accounts")
-    .select("user_id")
-    .eq("id", accountId)
-    .single();
-
-  if (!data || data.user_id !== user.id) return { authorized: false as const };
   return { authorized: true as const, supabase, user };
 }
 
 async function verifyCategoryOwnership(categoryId: string) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { authorized: false as const };
+  const auth = await getAuthenticatedUser();
+  if (!auth.authorized) return { authorized: false as const };
 
-  const { data: category } = await supabase
+  const { data: category } = await auth.supabase
     .from("categories")
-    .select("account_id, accounts(user_id)")
+    .select("user_id")
     .eq("id", categoryId)
     .single();
 
-  if (!category) return { authorized: false as const };
-  const accountOwner = (category.accounts as { user_id: string } | null)?.user_id;
-  if (accountOwner !== user.id) return { authorized: false as const };
+  if (!category || category.user_id !== auth.user.id)
+    return { authorized: false as const };
 
-  return { authorized: true as const, supabase, user };
+  return auth;
 }
 
-export async function createDefaultCategories(accountId: string) {
-  const result = await verifyAccountOwnership(accountId);
-  if (!result.authorized) return { error: "No autorizado" };
+export async function createDefaultCategories(userId: string) {
+  const supabase = await createClient();
 
-  const { supabase } = result;
   const allCategories = [
     ...DEFAULT_EXPENSE_CATEGORIES,
     ...DEFAULT_INCOME_CATEGORIES,
   ].map((cat) => ({
-    account_id: accountId,
+    user_id: userId,
     name: cat.name,
     color: cat.color,
     icon: cat.icon,
@@ -86,33 +71,18 @@ export async function createDefaultCategories(accountId: string) {
   return {};
 }
 
-export async function getCategoriesByAccount(accountId: string) {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from("categories")
-    .select("*")
-    .eq("account_id", accountId)
-    .order("name", { ascending: true });
-
-  if (error) throw error;
-  return data;
-}
-
 export async function createCategory(formData: FormData) {
   const raw = Object.fromEntries(formData);
   const parsed = createCategorySchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues[0].message };
 
-  const { account_id, name, color, icon } = parsed.data;
+  const auth = await getAuthenticatedUser();
+  if (!auth.authorized) return { error: "No autorizado" };
 
-  const result = await verifyAccountOwnership(account_id);
-  if (!result.authorized) return { error: "No autorizado" };
-
-  const { supabase } = result;
-  const { error } = await supabase
+  const { name, color, icon } = parsed.data;
+  const { error } = await auth.supabase
     .from("categories")
-    .insert({ account_id, name, color, icon: icon ?? null });
+    .insert({ user_id: auth.user.id, name, color, icon: icon ?? null });
 
   if (error) return { error: error.message };
 
@@ -125,12 +95,11 @@ export async function updateCategory(id: string, formData: FormData) {
   const result = await verifyCategoryOwnership(id);
   if (!result.authorized) return { error: "No autorizado" };
 
-  const { supabase } = result;
   const name = formData.get("name") as string;
   const color = formData.get("color") as string;
   const icon = formData.get("icon") as string | null;
 
-  const { error } = await supabase
+  const { error } = await result.supabase
     .from("categories")
     .update({ name, color, icon })
     .eq("id", id);
@@ -146,8 +115,10 @@ export async function deleteCategory(id: string) {
   const result = await verifyCategoryOwnership(id);
   if (!result.authorized) return { error: "No autorizado" };
 
-  const { supabase } = result;
-  const { error } = await supabase.from("categories").delete().eq("id", id);
+  const { error } = await result.supabase
+    .from("categories")
+    .delete()
+    .eq("id", id);
 
   if (error) return { error: error.message };
 

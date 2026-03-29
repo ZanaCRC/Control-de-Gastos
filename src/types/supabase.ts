@@ -89,35 +89,35 @@ export type Database = {
       }
       categories: {
         Row: {
-          account_id: string
           color: string | null
           created_at: string | null
           icon: string | null
           id: string
           name: string
+          user_id: string
         }
         Insert: {
-          account_id: string
           color?: string | null
           created_at?: string | null
           icon?: string | null
           id?: string
           name: string
+          user_id: string
         }
         Update: {
-          account_id?: string
           color?: string | null
           created_at?: string | null
           icon?: string | null
           id?: string
           name?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "categories_account_id_fkey"
-            columns: ["account_id"]
+            foreignKeyName: "categories_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "accounts"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
