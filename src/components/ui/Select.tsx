@@ -16,6 +16,8 @@ export function Select({
   className = "",
   ...props
 }: SelectProps) {
+  const errorId = id ? `${id}-error` : undefined;
+
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-medium text-zinc-700 mb-1.5">
@@ -23,7 +25,9 @@ export function Select({
       </label>
       <select
         id={id}
-        className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10 ${
+        aria-describedby={error && errorId ? errorId : undefined}
+        aria-invalid={error ? "true" : undefined}
+        className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-hidden transition focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10 ${
           error ? "border-red-300" : "border-zinc-300"
         } ${className}`}
         {...props}
@@ -39,7 +43,11 @@ export function Select({
           </option>
         ))}
       </select>
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && (
+        <p id={errorId} role="alert" className="mt-1 text-sm text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

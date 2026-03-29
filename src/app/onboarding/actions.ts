@@ -1,9 +1,19 @@
 "use server";
 
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createDefaultCategories } from "@/lib/actions/categories";
 
-export async function createAccountWithDefaults(formData: FormData) {
+const onboardingSchema = z.object({
+  name: z.string().min(1, "El nombre es requerido").max(100),
+  currency: z.enum(["CRC", "USD", "EUR"]).default("CRC"),
+  balance: z.coerce.number().default(0),
+});
+
+export async function createAccountWithDefaults(
+  _prevState: { error?: string } | null,
+  formData: FormData
+): Promise<{ error?: string } | null> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -11,11 +21,11 @@ export async function createAccountWithDefaults(formData: FormData) {
 
   if (!user) return { error: "No autenticado" };
 
-  const name = formData.get("name") as string;
-  const currency = (formData.get("currency") as string) || "CRC";
-  const balance = parseFloat(formData.get("balance") as string) || 0;
+  const parsed = onboardingSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
 
-  // Create account
+  const { name, currency, balance } = parsed.data;
+
   const { data: account, error: accountError } = await supabase
     .from("accounts")
     .insert({ user_id: user.id, name, currency, balance })
@@ -24,9 +34,8 @@ export async function createAccountWithDefaults(formData: FormData) {
 
   if (accountError) return { error: accountError.message };
 
-  // Create default categories
   const catResult = await createDefaultCategories(account.id);
   if (catResult.error) return { error: catResult.error };
 
-  return {};
+  return null;
 }

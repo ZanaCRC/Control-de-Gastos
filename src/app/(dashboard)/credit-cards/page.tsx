@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { CreditCardForm } from "@/components/credit-cards/CreditCardForm";
@@ -8,9 +9,7 @@ import Link from "next/link";
 
 export default async function CreditCardsPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: creditCards } = await supabase
     .from("credit_cards")
@@ -27,22 +26,23 @@ export default async function CreditCardsPage() {
   const defaultCurrency = accounts?.[0]?.currency ?? "CRC";
   const accountIds = (accounts ?? []).map((a) => a.id);
 
-  // Get current period totals for each card
-  const cardTotals: Record<string, number> = {};
-  for (const card of creditCards ?? []) {
-    const { start, end } = getCreditCardPeriod(card.cut_off_day);
-    const { data: txs } = accountIds.length
-      ? await supabase
-          .from("transactions")
-          .select("amount")
-          .eq("credit_card_id", card.id)
-          .in("account_id", accountIds)
-          .gte("date", start)
-          .lte("date", end)
-      : { data: [] };
-
-    cardTotals[card.id] = (txs ?? []).reduce((s, t) => s + t.amount, 0);
-  }
+  // Get current period totals for each card (parallel)
+  const cardTotalEntries = await Promise.all(
+    (creditCards ?? []).map(async (card) => {
+      const { start, end } = getCreditCardPeriod(card.cut_off_day);
+      const { data: txs } = accountIds.length
+        ? await supabase
+            .from("transactions")
+            .select("amount")
+            .eq("credit_card_id", card.id)
+            .in("account_id", accountIds)
+            .gte("date", start)
+            .lte("date", end)
+        : { data: [] };
+      return [card.id, (txs ?? []).reduce((s, t) => s + t.amount, 0)] as const;
+    })
+  );
+  const cardTotals = Object.fromEntries(cardTotalEntries);
 
   return (
     <div className="space-y-6">

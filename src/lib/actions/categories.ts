@@ -1,7 +1,15 @@
 "use server";
 
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+
+const createCategorySchema = z.object({
+  account_id: z.string().uuid("ID de cuenta inválido"),
+  name: z.string().min(1, "El nombre es requerido").max(50),
+  color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Color inválido").default("#71717a"),
+  icon: z.string().max(30).nullable().optional(),
+});
 
 const DEFAULT_EXPENSE_CATEGORIES = [
   { name: "Alimentación", color: "#f59e0b", icon: "utensils" },
@@ -20,9 +28,48 @@ const DEFAULT_INCOME_CATEGORIES = [
   { name: "Otros ingresos", color: "#a3e635", icon: "plus" },
 ];
 
-export async function createDefaultCategories(accountId: string) {
+async function verifyAccountOwnership(accountId: string) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { authorized: false as const };
 
+  const { data } = await supabase
+    .from("accounts")
+    .select("user_id")
+    .eq("id", accountId)
+    .single();
+
+  if (!data || data.user_id !== user.id) return { authorized: false as const };
+  return { authorized: true as const, supabase, user };
+}
+
+async function verifyCategoryOwnership(categoryId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { authorized: false as const };
+
+  const { data: category } = await supabase
+    .from("categories")
+    .select("account_id, accounts(user_id)")
+    .eq("id", categoryId)
+    .single();
+
+  if (!category) return { authorized: false as const };
+  const accountOwner = (category.accounts as { user_id: string } | null)?.user_id;
+  if (accountOwner !== user.id) return { authorized: false as const };
+
+  return { authorized: true as const, supabase, user };
+}
+
+export async function createDefaultCategories(accountId: string) {
+  const result = await verifyAccountOwnership(accountId);
+  if (!result.authorized) return { error: "No autorizado" };
+
+  const { supabase } = result;
   const allCategories = [
     ...DEFAULT_EXPENSE_CATEGORIES,
     ...DEFAULT_INCOME_CATEGORIES,
@@ -53,16 +100,19 @@ export async function getCategoriesByAccount(accountId: string) {
 }
 
 export async function createCategory(formData: FormData) {
-  const supabase = await createClient();
+  const raw = Object.fromEntries(formData);
+  const parsed = createCategorySchema.safeParse(raw);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
 
-  const accountId = formData.get("account_id") as string;
-  const name = formData.get("name") as string;
-  const color = (formData.get("color") as string) || "#71717a";
-  const icon = (formData.get("icon") as string) || null;
+  const { account_id, name, color, icon } = parsed.data;
 
+  const result = await verifyAccountOwnership(account_id);
+  if (!result.authorized) return { error: "No autorizado" };
+
+  const { supabase } = result;
   const { error } = await supabase
     .from("categories")
-    .insert({ account_id: accountId, name, color, icon });
+    .insert({ account_id, name, color, icon: icon ?? null });
 
   if (error) return { error: error.message };
 
@@ -72,8 +122,10 @@ export async function createCategory(formData: FormData) {
 }
 
 export async function updateCategory(id: string, formData: FormData) {
-  const supabase = await createClient();
+  const result = await verifyCategoryOwnership(id);
+  if (!result.authorized) return { error: "No autorizado" };
 
+  const { supabase } = result;
   const name = formData.get("name") as string;
   const color = formData.get("color") as string;
   const icon = formData.get("icon") as string | null;
@@ -91,8 +143,10 @@ export async function updateCategory(id: string, formData: FormData) {
 }
 
 export async function deleteCategory(id: string) {
-  const supabase = await createClient();
+  const result = await verifyCategoryOwnership(id);
+  if (!result.authorized) return { error: "No autorizado" };
 
+  const { supabase } = result;
   const { error } = await supabase.from("categories").delete().eq("id", id);
 
   if (error) return { error: error.message };

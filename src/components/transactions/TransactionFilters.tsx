@@ -45,9 +45,10 @@ export function TransactionFilters({
     <div className="flex flex-wrap gap-2">
       {/* Tipo */}
       <select
+        aria-label="Filtrar por tipo"
         value={currentFilters.type || "all"}
         onChange={(e) => updateFilter("type", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-none"
+        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-hidden"
       >
         <option value="all">Todos</option>
         <option value="expense">Gastos</option>
@@ -57,9 +58,10 @@ export function TransactionFilters({
       {/* Cuenta */}
       {accounts.length > 1 && (
         <select
+          aria-label="Filtrar por cuenta"
           value={currentFilters.account || ""}
           onChange={(e) => updateFilter("account", e.target.value)}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-none"
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-hidden"
         >
           <option value="">Todas las cuentas</option>
           {accounts.map((a) => (
@@ -72,9 +74,10 @@ export function TransactionFilters({
 
       {/* Categoría */}
       <select
+        aria-label="Filtrar por categoría"
         value={currentFilters.category || ""}
         onChange={(e) => updateFilter("category", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-none"
+        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-hidden"
       >
         <option value="">Todas las categorías</option>
         {categories.map((c) => (
@@ -87,15 +90,17 @@ export function TransactionFilters({
       {/* Fechas */}
       <input
         type="date"
+        aria-label="Fecha desde"
         value={currentFilters.from || defaultStart}
         onChange={(e) => updateFilter("from", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-none"
+        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-hidden"
       />
       <input
         type="date"
+        aria-label="Fecha hasta"
         value={currentFilters.to || defaultEnd}
         onChange={(e) => updateFilter("to", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-none"
+        className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 outline-hidden"
       />
     </div>
   );

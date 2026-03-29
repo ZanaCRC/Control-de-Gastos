@@ -1,8 +1,19 @@
 "use server";
 
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+const transactionSchema = z.object({
+  account_id: z.string().uuid("Cuenta inválida"),
+  category_id: z.string().uuid().optional().nullable(),
+  credit_card_id: z.string().uuid().optional().nullable(),
+  type: z.enum(["expense", "income"], { message: "Tipo debe ser gasto o ingreso" }),
+  amount: z.coerce.number().positive("El monto debe ser mayor a 0"),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Fecha inválida"),
+  description: z.string().max(500).optional().nullable(),
+});
 
 interface TransactionFilters {
   accountId?: string;
@@ -14,19 +25,39 @@ interface TransactionFilters {
   offset?: number;
 }
 
-export async function getTransactions(filters: TransactionFilters = {}) {
+async function getAuthenticatedUser() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) throw new Error("No autenticado");
+  return { supabase, user };
+}
 
-  // Get user's account IDs
-  const { data: accounts } = await supabase
+async function getUserAccountIds(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
+  const { data } = await supabase
     .from("accounts")
     .select("id")
-    .eq("user_id", user!.id);
+    .eq("user_id", userId);
+  return (data ?? []).map((a) => a.id);
+}
 
-  const accountIds = (accounts ?? []).map((a) => a.id);
+async function verifyTransactionOwnership(supabase: Awaited<ReturnType<typeof createClient>>, transactionId: string, userId: string) {
+  const { data } = await supabase
+    .from("transactions")
+    .select("id, account_id, accounts(user_id)")
+    .eq("id", transactionId)
+    .single();
+
+  if (!data) return false;
+  const owner = (data.accounts as { user_id: string } | null)?.user_id;
+  return owner === userId;
+}
+
+export async function getTransactions(filters: TransactionFilters = {}) {
+  const { supabase, user } = await getAuthenticatedUser();
+
+  const accountIds = await getUserAccountIds(supabase, user.id);
   if (accountIds.length === 0) return [];
 
   let query = supabase
@@ -36,27 +67,13 @@ export async function getTransactions(filters: TransactionFilters = {}) {
     .order("date", { ascending: false })
     .order("created_at", { ascending: false });
 
-  if (filters.accountId) {
-    query = query.eq("account_id", filters.accountId);
-  }
-  if (filters.categoryId) {
-    query = query.eq("category_id", filters.categoryId);
-  }
-  if (filters.type) {
-    query = query.eq("type", filters.type);
-  }
-  if (filters.startDate) {
-    query = query.gte("date", filters.startDate);
-  }
-  if (filters.endDate) {
-    query = query.lte("date", filters.endDate);
-  }
-  if (filters.limit) {
-    query = query.limit(filters.limit);
-  }
-  if (filters.offset) {
-    query = query.range(filters.offset, filters.offset + (filters.limit ?? 50) - 1);
-  }
+  if (filters.accountId) query = query.eq("account_id", filters.accountId);
+  if (filters.categoryId) query = query.eq("category_id", filters.categoryId);
+  if (filters.type) query = query.eq("type", filters.type);
+  if (filters.startDate) query = query.gte("date", filters.startDate);
+  if (filters.endDate) query = query.lte("date", filters.endDate);
+  if (filters.limit) query = query.limit(filters.limit);
+  if (filters.offset) query = query.range(filters.offset, filters.offset + (filters.limit ?? 50) - 1);
 
   const { data, error } = await query;
   if (error) throw error;
@@ -76,29 +93,31 @@ export async function getTransactionById(id: string) {
 }
 
 export async function createTransaction(formData: FormData) {
-  const supabase = await createClient();
+  const { supabase, user } = await getAuthenticatedUser();
 
-  const accountId = formData.get("account_id") as string;
-  const categoryId = formData.get("category_id") as string | null;
-  const creditCardId = formData.get("credit_card_id") as string | null;
-  const type = formData.get("type") as string;
-  const amount = parseFloat(formData.get("amount") as string);
-  const date = formData.get("date") as string;
-  const description = (formData.get("description") as string) || null;
+  const raw = Object.fromEntries(formData);
+  // Normalize empty strings to null for optional UUID fields
+  if (!raw.category_id) raw.category_id = null as unknown as string;
+  if (!raw.credit_card_id) raw.credit_card_id = null as unknown as string;
+  if (!raw.description) raw.description = null as unknown as string;
 
-  if (!amount || amount <= 0) return { error: "El monto debe ser mayor a 0" };
-  if (!accountId) return { error: "Selecciona una cuenta" };
-  if (!date) return { error: "Selecciona una fecha" };
+  const parsed = transactionSchema.safeParse(raw);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
 
-  // Insert transaction
+  const { account_id, category_id, credit_card_id, type, amount, date, description } = parsed.data;
+
+  // Verify account belongs to user
+  const accountIds = await getUserAccountIds(supabase, user.id);
+  if (!accountIds.includes(account_id)) return { error: "No autorizado" };
+
   const { error: txError } = await supabase.from("transactions").insert({
-    account_id: accountId,
-    category_id: categoryId || null,
-    credit_card_id: creditCardId || null,
+    account_id,
+    category_id: category_id ?? null,
+    credit_card_id: credit_card_id ?? null,
     type,
     amount,
     date,
-    description,
+    description: description ?? null,
   });
 
   if (txError) return { error: txError.message };
@@ -107,7 +126,7 @@ export async function createTransaction(formData: FormData) {
   const { data: account } = await supabase
     .from("accounts")
     .select("balance")
-    .eq("id", accountId)
+    .eq("id", account_id)
     .single();
 
   if (account) {
@@ -119,7 +138,7 @@ export async function createTransaction(formData: FormData) {
     await supabase
       .from("accounts")
       .update({ balance: newBalance })
-      .eq("id", accountId);
+      .eq("id", account_id);
   }
 
   revalidatePath("/");
@@ -129,7 +148,21 @@ export async function createTransaction(formData: FormData) {
 }
 
 export async function updateTransaction(id: string, formData: FormData) {
-  const supabase = await createClient();
+  const { supabase, user } = await getAuthenticatedUser();
+
+  if (!(await verifyTransactionOwnership(supabase, id, user.id))) {
+    return { error: "No autorizado" };
+  }
+
+  const raw = Object.fromEntries(formData);
+  if (!raw.category_id) raw.category_id = null as unknown as string;
+  if (!raw.credit_card_id) raw.credit_card_id = null as unknown as string;
+  if (!raw.description) raw.description = null as unknown as string;
+
+  const parsed = transactionSchema.safeParse(raw);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
+
+  const { account_id, category_id, credit_card_id, type, amount, date, description } = parsed.data;
 
   // Get original transaction to reverse balance
   const { data: original } = await supabase
@@ -140,25 +173,17 @@ export async function updateTransaction(id: string, formData: FormData) {
 
   if (!original) return { error: "Transacción no encontrada" };
 
-  const accountId = formData.get("account_id") as string;
-  const categoryId = formData.get("category_id") as string | null;
-  const creditCardId = formData.get("credit_card_id") as string | null;
-  const type = formData.get("type") as string;
-  const amount = parseFloat(formData.get("amount") as string);
-  const date = formData.get("date") as string;
-  const description = (formData.get("description") as string) || null;
-
   // Update transaction
   const { error: txError } = await supabase
     .from("transactions")
     .update({
-      account_id: accountId,
-      category_id: categoryId || null,
-      credit_card_id: creditCardId || null,
+      account_id,
+      category_id: category_id ?? null,
+      credit_card_id: credit_card_id ?? null,
       type,
       amount,
       date,
-      description,
+      description: description ?? null,
     })
     .eq("id", id);
 
@@ -182,11 +207,11 @@ export async function updateTransaction(id: string, formData: FormData) {
     .eq("id", original.account_id);
 
   // If account changed, also update new account
-  if (accountId !== original.account_id) {
+  if (account_id !== original.account_id) {
     const { data: newAccount } = await supabase
       .from("accounts")
       .select("balance")
-      .eq("id", accountId)
+      .eq("id", account_id)
       .single();
 
     if (newAccount) {
@@ -198,9 +223,8 @@ export async function updateTransaction(id: string, formData: FormData) {
       await supabase
         .from("accounts")
         .update({ balance: updatedNewBalance })
-        .eq("id", accountId);
+        .eq("id", account_id);
 
-      // Re-reverse the old account since we applied to new one
       await supabase
         .from("accounts")
         .update({ balance: reversedBalance })
@@ -215,9 +239,12 @@ export async function updateTransaction(id: string, formData: FormData) {
 }
 
 export async function deleteTransaction(id: string) {
-  const supabase = await createClient();
+  const { supabase, user } = await getAuthenticatedUser();
 
-  // Get transaction to reverse balance
+  if (!(await verifyTransactionOwnership(supabase, id, user.id))) {
+    return { error: "No autorizado" };
+  }
+
   const { data: transaction } = await supabase
     .from("transactions")
     .select("*, accounts(balance)")
@@ -226,11 +253,9 @@ export async function deleteTransaction(id: string) {
 
   if (!transaction) return { error: "Transacción no encontrada" };
 
-  // Delete transaction
   const { error } = await supabase.from("transactions").delete().eq("id", id);
   if (error) return { error: error.message };
 
-  // Reverse balance impact
   const currentBalance = (transaction.accounts as { balance: number }).balance;
   const newBalance =
     transaction.type === "income"

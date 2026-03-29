@@ -1,12 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { getMonthRange } from "@/lib/utils";
 import { ReportsView } from "@/components/reports/ReportsView";
 
 export default async function ReportsPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: accounts } = await supabase
     .from("accounts")

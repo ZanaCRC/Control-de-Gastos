@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { useToast } from "@/components/ui/Toast";
 import { createCategory, deleteCategory } from "@/lib/actions/categories";
 import type { Tables } from "@/types/supabase";
 
@@ -20,10 +22,13 @@ interface Props {
 
 export function CategoryManager({ accountId, categories }: Props) {
   const router = useRouter();
+  const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
   const [selectedColor, setSelectedColor] = useState(COLOR_PALETTE[0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function handleCreate(formData: FormData) {
     setLoading(true);
@@ -40,14 +45,18 @@ export function CategoryManager({ accountId, categories }: Props) {
     setLoading(false);
   }
 
-  async function handleDelete(id: string, name: string) {
-    if (!confirm(`¿Eliminar la categoría "${name}"?`)) return;
-    const result = await deleteCategory(id);
+  async function handleConfirmDelete() {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    const result = await deleteCategory(deleteTarget.id);
     if (result?.error) {
-      alert(result.error);
+      toast(result.error, "error");
     } else {
+      toast("Categoría eliminada", "success");
       router.refresh();
     }
+    setDeleteTarget(null);
+    setDeleting(false);
   }
 
   return (
@@ -67,7 +76,7 @@ export function CategoryManager({ accountId, categories }: Props) {
               <span className="text-sm text-zinc-700">{cat.name}</span>
             </div>
             <button
-              onClick={() => handleDelete(cat.id, cat.name)}
+              onClick={() => setDeleteTarget({ id: cat.id, name: cat.name })}
               className="text-xs text-zinc-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition"
             >
               Eliminar
@@ -128,6 +137,16 @@ export function CategoryManager({ accountId, categories }: Props) {
           + Agregar categoría
         </Button>
       )}
+
+      <ConfirmDialog
+        open={deleteTarget !== null}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        title={`Eliminar "${deleteTarget?.name ?? ""}"`}
+        description="Las transacciones con esta categoría quedarán sin categoría asignada."
+        confirmLabel="Eliminar"
+        loading={deleting}
+      />
     </div>
   );
 }

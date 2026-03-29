@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { formatCurrency, formatDateShort, getCreditCardPeriod, formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
@@ -12,9 +13,7 @@ interface Props {
 export default async function CreditCardDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: card } = await supabase
     .from("credit_cards")
@@ -53,9 +52,10 @@ export default async function CreditCardDetailPage({ params }: Props) {
       <div className="flex items-center gap-3">
         <Link
           href="/credit-cards"
+          aria-label="Volver"
           className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 transition"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </Link>

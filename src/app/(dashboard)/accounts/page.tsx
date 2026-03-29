@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
@@ -6,9 +7,7 @@ import { NewAccountForm } from "@/components/accounts/NewAccountForm";
 
 export default async function AccountsPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: accounts } = await supabase
     .from("accounts")

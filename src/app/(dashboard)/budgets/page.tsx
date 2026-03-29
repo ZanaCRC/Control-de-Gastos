@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency } from "@/lib/utils";
@@ -7,9 +8,7 @@ import { DeleteBudgetButton } from "@/components/budgets/DeleteBudgetButton";
 
 export default async function BudgetsPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: accounts } = await supabase
     .from("accounts")

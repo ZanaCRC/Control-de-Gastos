@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -15,23 +15,13 @@ const currencyOptions = [
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [state, formAction, isPending] = useActionState(createAccountWithDefaults, null);
 
-  async function handleSubmit(formData: FormData) {
-    setLoading(true);
-    setError(null);
-
-    const result = await createAccountWithDefaults(formData);
-
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-      return;
-    }
-
-    router.push("/");
-  }
+  useEffect(() => {
+    if (state === null && !isPending) return;
+    // null means success (action returned null)
+    if (state === null) router.push("/");
+  }, [state, isPending, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
@@ -47,7 +37,7 @@ export default function OnboardingPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-8">
-          <form action={handleSubmit} className="space-y-5">
+          <form action={formAction} className="space-y-5">
             <Input
               id="name"
               name="name"
@@ -75,14 +65,14 @@ export default function OnboardingPage() {
               defaultValue="0"
             />
 
-            {error && (
+            {state?.error && (
               <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3.5 py-2.5">
-                {error}
+                {state.error}
               </p>
             )}
 
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Creando cuenta..." : "Crear cuenta y empezar"}
+            <Button type="submit" disabled={isPending} className="w-full">
+              {isPending ? "Creando cuenta..." : "Crear cuenta y empezar"}
             </Button>
           </form>
         </div>

@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency, formatDateShort, getMonthRange } from "@/lib/utils";
@@ -19,9 +20,7 @@ interface Props {
 export default async function TransactionsPage({ searchParams }: Props) {
   const params = await searchParams;
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   // Get accounts
   const { data: accounts } = await supabase

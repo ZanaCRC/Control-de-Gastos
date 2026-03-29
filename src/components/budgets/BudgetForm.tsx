@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
-import { createBudget } from "@/lib/actions/budgets";
+import { createBudgetAction } from "@/lib/actions/budgets";
 import { getMonthRange } from "@/lib/utils";
 import type { Tables } from "@/types/supabase";
 
@@ -21,25 +21,20 @@ const periodOptions = [
 
 export function BudgetForm({ categories }: Props) {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [state, formAction, isPending] = useActionState(createBudgetAction, null);
 
   const { start, end } = getMonthRange();
 
-  async function handleSubmit(formData: FormData) {
-    setLoading(true);
-    setError(null);
-    const result = await createBudget(formData);
-    if (result?.error) {
-      setError(result.error);
-    } else {
+  useEffect(() => {
+    if (state && !state.error) {
+      formRef.current?.reset();
       router.refresh();
     }
-    setLoading(false);
-  }
+  }, [state, router]);
 
   return (
-    <form action={handleSubmit} className="space-y-4">
+    <form ref={formRef} action={formAction} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Select
           id="budget-category"
@@ -88,9 +83,9 @@ export function BudgetForm({ categories }: Props) {
           defaultValue={end}
         />
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <Button type="submit" disabled={loading} variant="secondary">
-        {loading ? "Creando..." : "Crear presupuesto"}
+      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      <Button type="submit" disabled={isPending} variant="secondary">
+        {isPending ? "Creando..." : "Crear presupuesto"}
       </Button>
     </form>
   );

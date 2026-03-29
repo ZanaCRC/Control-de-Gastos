@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency, getMonthRange, getMonthName, formatDateShort } from "@/lib/utils";
@@ -6,9 +7,7 @@ import Link from "next/link";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   // Fetch accounts
   const { data: accounts } = await supabase
@@ -210,9 +209,10 @@ export default async function DashboardPage() {
       {/* Botón flotante para agregar transacción */}
       <Link
         href="/transactions/new"
+        aria-label="Agregar nueva transacción"
         className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg hover:bg-zinc-700 transition"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M12 5v14M5 12h14"
             stroke="currentColor"
