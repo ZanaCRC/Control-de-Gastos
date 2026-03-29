@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface ModalProps {
   open: boolean;
@@ -38,16 +40,9 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         <button
           onClick={onClose}
           aria-label="Cerrar"
-          className="rounded-lg p-1 text-zinc-400 cursor-pointer hover:bg-zinc-100 hover:text-zinc-600 active:bg-zinc-200 transition"
+          className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:bg-zinc-100 hover:text-zinc-600 active:bg-zinc-200 transition"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path
-              d="M15 5L5 15M5 5l10 10"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          <FontAwesomeIcon icon={faXmark} className="w-5 h-5 sm:w-4 sm:h-4" />
         </button>
       </div>
       <div className="px-6 py-4">{children}</div>

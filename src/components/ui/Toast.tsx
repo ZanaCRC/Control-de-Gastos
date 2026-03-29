@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback, createContext, useContext, type ReactNode } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark, faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface ToastData {
   id: number;
@@ -68,39 +70,17 @@ function ToastItem({
           : "bg-emerald-600 text-white"
       }`}
     >
-      {data.type === "error" ? (
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-          <path
-            d="M15 5L5 15M5 5l10 10"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      ) : (
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-          <path
-            d="M5 10l3.5 3.5L15 6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
+      <FontAwesomeIcon
+        icon={data.type === "error" ? faCircleXmark : faCircleCheck}
+        className="w-4 h-4 shrink-0"
+      />
       {data.message}
       <button
         onClick={() => onDismiss(data.id)}
-        className="ml-2 opacity-70 cursor-pointer hover:opacity-100 active:opacity-50"
+        aria-label="Cerrar notificación"
+        className="ml-1 rounded-lg p-2 opacity-70 cursor-pointer hover:opacity-100 active:opacity-50 transition"
       >
-        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-          <path
-            d="M15 5L5 15M5 5l10 10"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
+        <FontAwesomeIcon icon={faXmark} className="w-3.5 h-3.5" />
       </button>
     </div>
   );

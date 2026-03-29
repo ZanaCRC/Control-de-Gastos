@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { deleteBudget } from "@/lib/actions/budgets";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/components/ui/Toast";
@@ -30,16 +32,9 @@ export function DeleteBudgetButton({ id }: { id: string }) {
       <button
         onClick={() => setOpen(true)}
         aria-label="Eliminar presupuesto"
-        className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 transition"
+        className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 active:bg-red-100 transition"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M4.5 4.5l7 7M11.5 4.5l-7 7"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-        </svg>
+        <FontAwesomeIcon icon={faTrash} className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
       </button>
       <ConfirmDialog
         open={open}

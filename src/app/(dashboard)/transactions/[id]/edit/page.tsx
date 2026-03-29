@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { TransactionForm } from "@/components/transactions/TransactionForm";
 import { updateTransaction } from "@/lib/actions/transactions";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { BackButton } from "@/components/ui/BackButton";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -48,15 +48,7 @@ export default async function EditTransactionPage({ params }: Props) {
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div className="flex items-center gap-3">
-        <Link
-          href="/transactions"
-          aria-label="Volver"
-          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 active:bg-zinc-200 transition"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </Link>
+        <BackButton href="/transactions" />
         <h1 className="text-2xl font-bold text-zinc-900">
           Editar transacción
         </h1>

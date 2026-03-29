@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
@@ -77,9 +79,10 @@ export function CategoryManager({ accountId, categories }: Props) {
             </div>
             <button
               onClick={() => setDeleteTarget({ id: cat.id, name: cat.name })}
-              className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+              aria-label={`Eliminar ${cat.name}`}
+              className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 active:bg-red-100 md:opacity-0 md:group-hover:opacity-100 transition-all"
             >
-              Eliminar
+              <FontAwesomeIcon icon={faTrash} className="w-3.5 h-3.5 sm:w-3 sm:h-3" />
             </button>
           </div>
         ))}

@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Card } from "@/components/ui/Card";
 import { formatCurrency, formatDateShort, getMonthRange } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { BackButton } from "@/components/ui/BackButton";
 import { DeleteAccountButton } from "@/components/accounts/DeleteAccountButton";
 
 interface Props {
@@ -41,15 +41,7 @@ export default async function AccountDetailPage({ params }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link
-          href="/accounts"
-          aria-label="Volver"
-          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 active:bg-zinc-200 transition shrink-0"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </Link>
+        <BackButton href="/accounts" />
         <div className="flex-1 min-w-0">
           <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 truncate">{account.name}</h1>
           <p className="text-sm text-zinc-500">{account.currency}</p>

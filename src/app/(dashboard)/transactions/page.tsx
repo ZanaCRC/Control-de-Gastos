@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency, formatDateShort, getMonthRange } from "@/lib/utils";
 import Link from "next/link";
 import { TransactionFilters } from "@/components/transactions/TransactionFilters";
-import { DeleteTransactionButton } from "@/components/transactions/DeleteTransactionButton";
+import { TransactionActions } from "@/components/transactions/TransactionActions";
 
 interface Props {
   searchParams: Promise<{
@@ -178,17 +178,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
                     {t.type === "expense" ? "-" : "+"}
                     {formatCurrency(t.amount, acc?.currency ?? defaultCurrency)}
                   </span>
-                  <div className="flex items-center gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                    <Link
-                      href={`/transactions/${t.id}/edit`}
-                      className="rounded p-1 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M11.5 2.5l2 2-8 8H3.5v-2l8-8z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-                      </svg>
-                    </Link>
-                    <DeleteTransactionButton id={t.id} />
-                  </div>
+                  <TransactionActions id={t.id} />
                 </div>
               </div>
             );

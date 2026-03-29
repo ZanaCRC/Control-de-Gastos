@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { Card } from "@/components/ui/Card";
 import { formatCurrency, formatDateShort, getCreditCardPeriod, formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { BackButton } from "@/components/ui/BackButton";
 import { CreditCardItem } from "@/components/credit-cards/CreditCardItem";
 
 interface Props {
@@ -50,15 +50,7 @@ export default async function CreditCardDetailPage({ params }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link
-          href="/credit-cards"
-          aria-label="Volver"
-          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 active:bg-zinc-200 transition shrink-0"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </Link>
+        <BackButton href="/credit-cards" />
         <div className="flex-1 min-w-0">
           <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 truncate">{card.name}</h1>
           <p className="text-sm text-zinc-500">
