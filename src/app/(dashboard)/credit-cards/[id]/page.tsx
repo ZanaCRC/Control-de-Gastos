@@ -53,14 +53,14 @@ export default async function CreditCardDetailPage({ params }: Props) {
         <Link
           href="/credit-cards"
           aria-label="Volver"
-          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 transition"
+          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 active:bg-zinc-200 transition shrink-0"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </Link>
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold text-zinc-900">{card.name}</h1>
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 truncate">{card.name}</h1>
           <p className="text-sm text-zinc-500">
             Corte: día {card.cut_off_day} &middot; Pago: día {card.payment_due_day}
           </p>
@@ -71,7 +71,7 @@ export default async function CreditCardDetailPage({ params }: Props) {
       {/* Period info */}
       <Card className="bg-zinc-900 text-white border-zinc-800">
         <p className="text-sm text-zinc-400">Total período actual</p>
-        <p className="text-3xl font-bold mt-1">
+        <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
           {formatCurrency(totalPeriod, defaultCurrency)}
         </p>
         <p className="text-xs text-zinc-500 mt-2">

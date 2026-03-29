@@ -30,7 +30,7 @@ export function DeleteBudgetButton({ id }: { id: string }) {
       <button
         onClick={() => setOpen(true)}
         aria-label="Eliminar presupuesto"
-        className="text-xs text-zinc-400 hover:text-red-500 transition"
+        className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 transition"
       >
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path

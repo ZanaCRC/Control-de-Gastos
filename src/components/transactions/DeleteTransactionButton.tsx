@@ -31,7 +31,7 @@ export function DeleteTransactionButton({ id }: { id: string }) {
       <button
         onClick={() => setOpen(true)}
         aria-label="Eliminar transacción"
-        className="rounded p-1 text-zinc-400 hover:text-red-600 hover:bg-red-50"
+        className="rounded p-1 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 active:bg-red-100"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path

@@ -35,7 +35,7 @@ export function CreditCardItem({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="text-xs text-zinc-400 hover:text-red-500 transition"
+        className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 transition"
       >
         Eliminar
       </button>

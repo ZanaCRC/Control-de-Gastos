@@ -26,7 +26,7 @@ export default async function AccountsPage() {
       {/* Balance total */}
       <Card className="bg-zinc-900 text-white border-zinc-800">
         <p className="text-sm text-zinc-400">Balance total</p>
-        <p className="text-3xl font-bold mt-1">
+        <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
           {formatCurrency(totalBalance, accounts?.[0]?.currency ?? "CRC")}
         </p>
       </Card>
@@ -35,7 +35,7 @@ export default async function AccountsPage() {
       <div className="grid gap-3 sm:grid-cols-2">
         {(accounts ?? []).map((account) => (
           <Link key={account.id} href={`/accounts/${account.id}`}>
-            <Card className="hover:border-zinc-300 transition cursor-pointer">
+            <Card className="hover:border-zinc-300 active:bg-zinc-50 transition cursor-pointer">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-zinc-900">

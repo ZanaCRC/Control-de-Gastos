@@ -44,14 +44,14 @@ export default async function AccountDetailPage({ params }: Props) {
         <Link
           href="/accounts"
           aria-label="Volver"
-          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 transition"
+          className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 active:bg-zinc-200 transition shrink-0"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </Link>
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold text-zinc-900">{account.name}</h1>
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 truncate">{account.name}</h1>
           <p className="text-sm text-zinc-500">{account.currency}</p>
         </div>
         <DeleteAccountButton id={account.id} name={account.name} />
@@ -60,7 +60,7 @@ export default async function AccountDetailPage({ params }: Props) {
       {/* Balance */}
       <Card className="bg-zinc-900 text-white border-zinc-800">
         <p className="text-sm text-zinc-400">Balance</p>
-        <p className="text-3xl font-bold mt-1">
+        <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
           {formatCurrency(account.balance, account.currency)}
         </p>
       </Card>

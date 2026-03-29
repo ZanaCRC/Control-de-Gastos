@@ -95,7 +95,7 @@ export function Sidebar() {
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
                 isActive
                   ? "bg-zinc-100 text-zinc-900"
-                  : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"
+                  : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 active:bg-zinc-100"
               }`}
             >
               {item.icon}

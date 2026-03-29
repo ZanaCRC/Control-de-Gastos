@@ -57,7 +57,7 @@ export default async function CreditCardsPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           {(creditCards ?? []).map((card) => (
             <Link key={card.id} href={`/credit-cards/${card.id}`}>
-              <Card className="hover:border-zinc-300 transition cursor-pointer">
+              <Card className="hover:border-zinc-300 active:bg-zinc-50 transition cursor-pointer">
                 <p className="text-sm font-medium text-zinc-900">{card.name}</p>
                 <p className="text-xs text-zinc-400 mt-1">
                   Corte: día {card.cut_off_day} &middot; Pago: día{" "}

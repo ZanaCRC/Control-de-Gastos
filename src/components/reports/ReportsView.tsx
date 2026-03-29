@@ -122,12 +122,12 @@ export function ReportsView({ transactions, currency }: Props) {
         <h3 className="text-sm font-semibold text-zinc-900 mb-4">
           Ingresos vs Gastos por mes
         </h3>
-        <div className="h-64">
+        <div className="h-56 sm:h-64 -ml-2 sm:ml-0">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f4f4f5" />
-              <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#a1a1aa" />
-              <YAxis tick={{ fontSize: 12 }} stroke="#a1a1aa" />
+              <XAxis dataKey="month" tick={{ fontSize: 11 }} stroke="#a1a1aa" />
+              <YAxis tick={{ fontSize: 10 }} stroke="#a1a1aa" width={50} />
               <Tooltip
                 formatter={(value) => formatCurrency(Number(value), currency)}
                 contentStyle={{
@@ -154,7 +154,7 @@ export function ReportsView({ transactions, currency }: Props) {
               Sin gastos este mes.
             </p>
           ) : (
-            <div className="h-56">
+            <div className="h-48 sm:h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -163,8 +163,8 @@ export function ReportsView({ transactions, currency }: Props) {
                     nameKey="name"
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
-                    innerRadius={40}
+                    outerRadius={70}
+                    innerRadius={35}
                   >
                     {categoryData.map((entry, i) => (
                       <Cell key={i} fill={entry.color} />
@@ -246,12 +246,12 @@ export function ReportsView({ transactions, currency }: Props) {
             Sin datos.
           </p>
         ) : (
-          <div className="h-48">
+          <div className="h-44 sm:h-48 -ml-2 sm:ml-0">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dailyTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f4f4f5" />
-                <XAxis dataKey="day" tick={{ fontSize: 12 }} stroke="#a1a1aa" />
-                <YAxis tick={{ fontSize: 12 }} stroke="#a1a1aa" />
+                <XAxis dataKey="day" tick={{ fontSize: 11 }} stroke="#a1a1aa" />
+                <YAxis tick={{ fontSize: 10 }} stroke="#a1a1aa" width={50} />
                 <Tooltip
                   formatter={(value) =>
                     formatCurrency(Number(value), currency)

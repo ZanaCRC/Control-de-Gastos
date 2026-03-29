@@ -66,10 +66,10 @@ export function TransactionForm({
           <button
             type="button"
             onClick={() => setType("expense")}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition ${
               type === "expense"
                 ? "bg-red-50 text-red-700"
-                : "text-zinc-500 hover:text-zinc-700"
+                : "text-zinc-500 hover:text-zinc-700 active:bg-zinc-50"
             }`}
           >
             Gasto
@@ -77,10 +77,10 @@ export function TransactionForm({
           <button
             type="button"
             onClick={() => setType("income")}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition ${
               type === "income"
                 ? "bg-emerald-50 text-emerald-700"
-                : "text-zinc-500 hover:text-zinc-700"
+                : "text-zinc-500 hover:text-zinc-700 active:bg-zinc-50"
             }`}
           >
             Ingreso

@@ -52,7 +52,7 @@ export default async function DashboardLayout({
               <form action={logout}>
                 <button
                   type="submit"
-                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 hover:bg-zinc-100 transition"
+                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 cursor-pointer hover:bg-zinc-100 active:bg-zinc-200 transition"
                 >
                   Salir
                 </button>

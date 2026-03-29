@@ -86,18 +86,18 @@ export default async function BudgetsPage() {
 
             return (
               <Card key={budget.id}>
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 mb-2">
                   <div className="flex items-center gap-2">
                     <span
-                      className="h-3 w-3 rounded-full"
+                      className="h-3 w-3 rounded-full shrink-0"
                       style={{ backgroundColor: cat?.color ?? "#71717a" }}
                     />
                     <span className="text-sm font-medium text-zinc-900">
                       {cat?.name ?? "Categoría"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-zinc-500">
+                  <div className="flex items-center gap-2 ml-5 sm:ml-0">
+                    <span className="text-xs sm:text-sm text-zinc-500 truncate">
                       {formatCurrency(budget.spent, defaultCurrency)} /{" "}
                       {formatCurrency(budget.amount_limit, defaultCurrency)}
                     </span>

@@ -77,7 +77,7 @@ export function CategoryManager({ accountId, categories }: Props) {
             </div>
             <button
               onClick={() => setDeleteTarget({ id: cat.id, name: cat.name })}
-              className="text-xs text-zinc-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition"
+              className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 md:opacity-0 md:group-hover:opacity-100 transition"
             >
               Eliminar
             </button>
@@ -104,7 +104,7 @@ export function CategoryManager({ accountId, categories }: Props) {
                   key={color}
                   type="button"
                   onClick={() => setSelectedColor(color)}
-                  className={`h-7 w-7 rounded-full border-2 transition ${
+                  className={`h-7 w-7 rounded-full border-2 cursor-pointer transition hover:scale-110 active:scale-95 ${
                     selectedColor === color
                       ? "border-zinc-900 scale-110"
                       : "border-transparent"

@@ -25,6 +25,18 @@ body {
   font-family: var(--font-sans), Arial, sans-serif;
 }
 
+button,
+[role="button"],
+select,
+a {
+  cursor: pointer;
+}
+
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;

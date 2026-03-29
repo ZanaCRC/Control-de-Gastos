@@ -86,7 +86,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
         <h1 className="text-2xl font-bold text-zinc-900">Transacciones</h1>
         <Link
           href="/transactions/new"
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-700 transition"
+          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-700 active:bg-zinc-800 transition"
         >
           + Nueva
         </Link>
@@ -102,22 +102,22 @@ export default async function TransactionsPage({ searchParams }: Props) {
       />
 
       {/* Resumen */}
-      <div className="grid grid-cols-3 gap-3">
-        <Card className="p-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        <Card className="p-3 sm:p-4">
           <p className="text-xs text-zinc-500">Ingresos</p>
-          <p className="text-sm font-bold text-emerald-600 mt-0.5">
+          <p className="text-xs sm:text-sm font-bold text-emerald-600 mt-0.5 truncate">
             {formatCurrency(totalIncome, defaultCurrency)}
           </p>
         </Card>
-        <Card className="p-4">
+        <Card className="p-3 sm:p-4">
           <p className="text-xs text-zinc-500">Gastos</p>
-          <p className="text-sm font-bold text-red-600 mt-0.5">
+          <p className="text-xs sm:text-sm font-bold text-red-600 mt-0.5 truncate">
             {formatCurrency(totalExpenses, defaultCurrency)}
           </p>
         </Card>
-        <Card className="p-4">
+        <Card className="p-3 sm:p-4">
           <p className="text-xs text-zinc-500">Balance</p>
-          <p className={`text-sm font-bold mt-0.5 ${totalIncome - totalExpenses >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+          <p className={`text-xs sm:text-sm font-bold mt-0.5 truncate ${totalIncome - totalExpenses >= 0 ? "text-emerald-600" : "text-red-600"}`}>
             {formatCurrency(totalIncome - totalExpenses, defaultCurrency)}
           </p>
         </Card>
@@ -131,7 +131,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
           action={
             <Link
               href="/transactions/new"
-              className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-zinc-700 transition"
+              className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-zinc-700 active:bg-zinc-800 transition"
             >
               Agregar transacción
             </Link>
@@ -145,7 +145,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
             return (
               <div
                 key={t.id}
-                className="flex items-center justify-between px-4 py-3 hover:bg-zinc-50 transition group"
+                className="flex items-center justify-between px-4 py-3 hover:bg-zinc-50 active:bg-zinc-100 transition group"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <span
@@ -178,10 +178,10 @@ export default async function TransactionsPage({ searchParams }: Props) {
                     {t.type === "expense" ? "-" : "+"}
                     {formatCurrency(t.amount, acc?.currency ?? defaultCurrency)}
                   </span>
-                  <div className="hidden group-hover:flex items-center gap-1">
+                  <div className="flex md:hidden md:group-hover:flex items-center gap-1">
                     <Link
                       href={`/transactions/${t.id}/edit`}
-                      className="rounded p-1 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100"
+                      className="rounded p-1 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200"
                     >
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M11.5 2.5l2 2-8 8H3.5v-2l8-8z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>

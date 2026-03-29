@@ -32,18 +32,22 @@ export function ConfirmDialog({
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    if (open) {
+    if (open && !dialog.open) {
       dialog.showModal();
-    } else {
-      dialog.close();
     }
+
+    return () => {
+      if (dialog.open) dialog.close();
+    };
   }, [open]);
+
+  if (!open) return null;
 
   return (
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
+      className="w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
     >
       <div className="px-6 pt-6 pb-2">
         <div className="flex items-start gap-3">

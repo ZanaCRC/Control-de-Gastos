@@ -91,7 +91,7 @@ function ToastItem({
       {data.message}
       <button
         onClick={() => onDismiss(data.id)}
-        className="ml-2 opacity-70 hover:opacity-100"
+        className="ml-2 opacity-70 cursor-pointer hover:opacity-100 active:opacity-50"
       >
         <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
           <path

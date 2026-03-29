@@ -16,25 +16,29 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    if (open) {
+    if (open && !dialog.open) {
       dialog.showModal();
-    } else {
-      dialog.close();
     }
+
+    return () => {
+      if (dialog.open) dialog.close();
+    };
   }, [open]);
+
+  if (!open) return null;
 
   return (
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
+      className="w-[calc(100%-2rem)] max-w-md rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
     >
       <div className="flex items-center justify-between border-b border-zinc-100 px-6 py-4">
         <h2 className="text-lg font-semibold text-zinc-900">{title}</h2>
         <button
           onClick={onClose}
           aria-label="Cerrar"
-          className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition"
+          className="rounded-lg p-1 text-zinc-400 cursor-pointer hover:bg-zinc-100 hover:text-zinc-600 active:bg-zinc-200 transition"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path

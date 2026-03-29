@@ -69,7 +69,7 @@ export default async function DashboardPage() {
       {/* Balance total */}
       <Card className="bg-zinc-900 text-white border-zinc-800">
         <p className="text-sm text-zinc-400">Balance total</p>
-        <p className="text-3xl font-bold mt-1">
+        <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
           {formatCurrency(totalBalance, defaultCurrency)}
         </p>
         <p className="text-xs text-zinc-500 mt-2">
@@ -85,13 +85,13 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-2 gap-3">
           <Card>
             <p className="text-sm text-zinc-500">Ingresos</p>
-            <p className="text-xl font-bold text-emerald-600 mt-1">
+            <p className="text-lg sm:text-xl font-bold text-emerald-600 mt-1 truncate">
               {formatCurrency(totalIncome, defaultCurrency)}
             </p>
           </Card>
           <Card>
             <p className="text-sm text-zinc-500">Gastos</p>
-            <p className="text-xl font-bold text-red-600 mt-1">
+            <p className="text-lg sm:text-xl font-bold text-red-600 mt-1 truncate">
               {formatCurrency(totalExpenses, defaultCurrency)}
             </p>
           </Card>
@@ -160,7 +160,7 @@ export default async function DashboardPage() {
             action={
               <Link
                 href="/transactions/new"
-                className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-zinc-700 transition"
+                className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-zinc-700 active:bg-zinc-800 transition"
               >
                 Agregar transacción
               </Link>
@@ -210,7 +210,7 @@ export default async function DashboardPage() {
       <Link
         href="/transactions/new"
         aria-label="Agregar nueva transacción"
-        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg hover:bg-zinc-700 transition"
+        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg hover:bg-zinc-700 active:bg-zinc-800 active:scale-95 transition"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
