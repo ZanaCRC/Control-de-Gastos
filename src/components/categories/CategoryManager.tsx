@@ -77,7 +77,7 @@ export function CategoryManager({ accountId, categories }: Props) {
             </div>
             <button
               onClick={() => setDeleteTarget({ id: cat.id, name: cat.name })}
-              className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 md:opacity-0 md:group-hover:opacity-100 transition"
+              className="text-xs text-zinc-400 cursor-pointer hover:text-red-500 active:text-red-600 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
             >
               Eliminar
             </button>

@@ -178,7 +178,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
                     {t.type === "expense" ? "-" : "+"}
                     {formatCurrency(t.amount, acc?.currency ?? defaultCurrency)}
                   </span>
-                  <div className="flex md:hidden md:group-hover:flex items-center gap-1">
+                  <div className="flex items-center gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <Link
                       href={`/transactions/${t.id}/edit`}
                       className="rounded p-1 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200"
