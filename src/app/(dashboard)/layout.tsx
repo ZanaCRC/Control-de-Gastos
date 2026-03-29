@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/navigation/Sidebar";
 import { BottomNav } from "@/components/navigation/BottomNav";
 import { ToastProvider } from "@/components/ui/Toast";
+import { TopLoader } from "@/components/ui/TopLoader";
 import { LogoutButton } from "@/components/navigation/LogoutButton";
 
 export default async function DashboardLayout({
@@ -34,6 +35,7 @@ export default async function DashboardLayout({
 
   return (
     <ToastProvider>
+      <TopLoader />
       <div className="flex h-screen bg-zinc-50">
         <Sidebar />
 

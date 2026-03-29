@@ -3,7 +3,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function login(formData: FormData) {
+export async function login(
+  _prevState: { error?: string } | null,
+  formData: FormData
+): Promise<{ error?: string } | null> {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -18,12 +21,18 @@ export async function login(formData: FormData) {
   redirect("/");
 }
 
-export async function register(formData: FormData) {
+export async function register(
+  _prevState: { error?: string } | null,
+  formData: FormData
+): Promise<{ error?: string } | null> {
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const confirm = formData.get("confirm_password") as string;
   const full_name = formData.get("full_name") as string;
+
+  if (password !== confirm) return { error: "Las contraseñas no coinciden" };
 
   const { error } = await supabase.auth.signUp({
     email,

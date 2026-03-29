@@ -1,31 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { register } from "../login/actions";
 
 export default function RegisterPage() {
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(formData: FormData) {
-    const password = formData.get("password") as string;
-    const confirm = formData.get("confirm_password") as string;
-
-    if (password !== confirm) {
-      setError("Las contraseñas no coinciden");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    const result = await register(formData);
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-    }
-  }
+  const [state, formAction, isPending] = useActionState(register, null);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
@@ -36,7 +17,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-8">
-          <form action={handleSubmit} className="space-y-5">
+          <form action={formAction} className="space-y-5">
             <div>
               <label
                 htmlFor="full_name"
@@ -111,18 +92,24 @@ export default function RegisterPage() {
               />
             </div>
 
-            {error && (
+            {state?.error && (
               <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3.5 py-2.5">
-                {error}
+                {state.error}
               </p>
             )}
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white transition cursor-pointer hover:bg-zinc-700 active:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isPending}
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white transition cursor-pointer hover:bg-zinc-700 active:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Creando cuenta..." : "Crear cuenta"}
+              {isPending && (
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+              )}
+              {isPending ? "Creando cuenta..." : "Crear cuenta"}
             </button>
           </form>
         </div>
