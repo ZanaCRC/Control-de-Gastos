@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { createDefaultCategories } from "@/lib/actions/categories";
 
 const onboardingSchema = z.object({
@@ -37,5 +38,5 @@ export async function createAccountWithDefaults(
   const catResult = await createDefaultCategories(account.id);
   if (catResult.error) return { error: catResult.error };
 
-  return null;
+  redirect("/");
 }

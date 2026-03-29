@@ -1,8 +1,7 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -15,14 +14,7 @@ const currencyOptions = [
 ];
 
 export default function OnboardingPage() {
-  const router = useRouter();
   const [state, formAction, isPending] = useActionState(createAccountWithDefaults, null);
-
-  useEffect(() => {
-    if (state === null && !isPending) return;
-    // null means success (action returned null)
-    if (state === null) router.push("/");
-  }, [state, isPending, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
