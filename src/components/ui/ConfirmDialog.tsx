@@ -47,9 +47,9 @@ export function ConfirmDialog({
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
+      className="fixed inset-0 m-auto w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
     >
-      <div className="px-6 pt-6 pb-2">
+      <div className="px-5 pt-5 pb-2 sm:px-6 sm:pt-6">
         <div className="flex items-start gap-3">
           <div
             className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
@@ -92,18 +92,18 @@ export function ConfirmDialog({
               </svg>
             )}
           </div>
-          <div>
+          <div className="min-w-0">
             <h3 className="text-base font-semibold text-zinc-900">{title}</h3>
             <p className="mt-1 text-sm text-zinc-500">{description}</p>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-2 px-6 py-4">
+      <div className="flex flex-col-reverse gap-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-end sm:px-6">
         <Button
           variant="secondary"
           onClick={onClose}
           disabled={loading}
-          className="px-3 py-2"
+          className="w-full justify-center px-3 py-2.5 sm:w-auto sm:py-2"
         >
           {cancelLabel}
         </Button>
@@ -111,7 +111,7 @@ export function ConfirmDialog({
           variant={variant === "danger" ? "danger" : "primary"}
           onClick={onConfirm}
           disabled={loading}
-          className="px-3 py-2"
+          className="w-full justify-center px-3 py-2.5 sm:w-auto sm:py-2"
         >
           {loading ? `${confirmLabel}...` : confirmLabel}
         </Button>

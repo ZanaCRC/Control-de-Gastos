@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -78,9 +79,7 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex md:w-56 md:flex-col md:border-r md:border-zinc-200 md:bg-white">
       <div className="flex h-16 items-center border-b border-zinc-200 px-5">
-        <h1 className="text-lg font-bold text-zinc-900 tracking-tight">
-          Control de Gastos
-        </h1>
+        <Image src="/logo.png" alt="Finzo" width={130} height={40} priority />
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
         {navItems.map((item) => {

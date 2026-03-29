@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -27,8 +28,9 @@ export default function OnboardingPage() {
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-zinc-900 tracking-tight">
-            Bienvenido a Control de Gastos
+          <Image src="/logo.png" alt="Finzo" width={160} height={50} className="mx-auto" priority />
+          <h1 className="mt-4 text-xl font-bold text-zinc-900 tracking-tight">
+            Bienvenido a Finzo
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
             Para empezar, crea tu primera cuenta. Puede ser tu cuenta de banco,

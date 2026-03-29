@@ -19,7 +19,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Control de Gastos",
+  title: "Finzo — Control de Gastos",
   description: "Aplicación para controlar tus gastos personales",
 };
 

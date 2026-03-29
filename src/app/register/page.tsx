@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { register } from "../login/actions";
 
@@ -30,10 +31,8 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-zinc-900 tracking-tight">
-            Control de Gastos
-          </h1>
-          <p className="mt-2 text-sm text-zinc-500">Crea tu cuenta</p>
+          <Image src="/logo.png" alt="Finzo" width={160} height={50} className="mx-auto" priority />
+          <p className="mt-3 text-sm text-zinc-500">Crea tu cuenta</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-8">

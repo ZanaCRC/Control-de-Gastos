@@ -1,9 +1,10 @@
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/navigation/Sidebar";
 import { BottomNav } from "@/components/navigation/BottomNav";
 import { ToastProvider } from "@/components/ui/Toast";
-import { logout } from "@/app/login/actions";
+import { LogoutButton } from "@/components/navigation/LogoutButton";
 
 export default async function DashboardLayout({
   children,
@@ -38,10 +39,9 @@ export default async function DashboardLayout({
 
         <div className="flex flex-1 flex-col overflow-hidden">
           {/* Mobile header */}
-          <header className="flex h-14 items-center justify-between border-b border-zinc-200 bg-white px-4 md:h-16 md:px-6">
-            <span className="text-lg font-bold text-zinc-900 md:hidden">
-              Control de Gastos
-            </span>
+          <header className="flex h-14 items-center justify-between border-b border-zinc-200 bg-white md:h-16 md:px-6">
+            <Image src="/logo.png" alt="Finzo" width={150} height={50} className="md:hidden" priority />
+
             <div className="hidden md:block">
               {/* Spacer for desktop since sidebar has the title */}
             </div>
@@ -49,14 +49,7 @@ export default async function DashboardLayout({
               <span className="text-sm text-zinc-500 hidden sm:inline">
                 {displayName}
               </span>
-              <form action={logout}>
-                <button
-                  type="submit"
-                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-600 cursor-pointer hover:bg-zinc-100 active:bg-zinc-200 transition"
-                >
-                  Salir
-                </button>
-              </form>
+              <LogoutButton />
             </div>
           </header>
 
