@@ -9,21 +9,21 @@ export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(login, null);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Image src="/logo.png" alt="Finzo" width={160} height={50} className="mx-auto" priority />
-          <p className="mt-3 text-sm text-zinc-500">
+          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
             Inicia sesión para continuar
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-8">
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-8">
           <form action={formAction} className="space-y-5">
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-zinc-700 mb-1.5"
+                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5"
               >
                 Correo electrónico
               </label>
@@ -33,7 +33,7 @@ export default function LoginPage() {
                 type="email"
                 required
                 autoComplete="email"
-                className="w-full rounded-lg border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
+                className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3.5 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 outline-none transition focus:border-zinc-900 dark:focus:border-zinc-100 focus:ring-2 focus:ring-zinc-900/10 dark:focus:ring-zinc-100/10"
                 placeholder="tu@email.com"
               />
             </div>
@@ -41,7 +41,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-zinc-700 mb-1.5"
+                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5"
               >
                 Contraseña
               </label>
@@ -51,13 +51,13 @@ export default function LoginPage() {
                 type="password"
                 required
                 autoComplete="current-password"
-                className="w-full rounded-lg border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10"
+                className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3.5 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 outline-none transition focus:border-zinc-900 dark:focus:border-zinc-100 focus:ring-2 focus:ring-zinc-900/10 dark:focus:ring-zinc-100/10"
                 placeholder="••••••••"
               />
             </div>
 
             {state?.error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3.5 py-2.5">
+              <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg px-3.5 py-2.5">
                 {state.error}
               </p>
             )}
@@ -65,7 +65,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white transition cursor-pointer hover:bg-zinc-700 active:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 px-4 py-2.5 text-sm font-semibold text-white dark:text-zinc-900 transition cursor-pointer hover:bg-zinc-700 dark:hover:bg-zinc-300 active:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending && (
                 <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -78,11 +78,11 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <p className="mt-6 text-center text-sm text-zinc-500">
+        <p className="mt-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
           ¿No tienes cuenta?{" "}
           <Link
             href="/register"
-            className="font-medium text-zinc-900 hover:underline"
+            className="font-medium text-zinc-900 dark:text-zinc-100 hover:underline"
           >
             Regístrate
           </Link>

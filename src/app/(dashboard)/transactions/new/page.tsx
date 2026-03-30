@@ -28,7 +28,7 @@ export default async function NewTransactionPage() {
     <div className="max-w-lg mx-auto space-y-6">
       <div className="flex items-center gap-3">
         <BackButton href="/transactions" />
-        <h1 className="text-2xl font-bold text-zinc-900">
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
           Nueva transacción
         </h1>
       </div>

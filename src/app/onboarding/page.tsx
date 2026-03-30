@@ -17,20 +17,20 @@ export default function OnboardingPage() {
   const [state, formAction, isPending] = useActionState(createAccountWithDefaults, null);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Image src="/logo.png" alt="Finzo" width={160} height={50} className="mx-auto" priority />
-          <h1 className="mt-4 text-xl font-bold text-zinc-900 tracking-tight">
+          <h1 className="mt-4 text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
             Bienvenido a Finzo
           </h1>
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             Para empezar, crea tu primera cuenta. Puede ser tu cuenta de banco,
             billetera o cualquier forma en que manejes dinero.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-8">
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-8">
           <form action={formAction} className="space-y-5">
             <Input
               id="name"
@@ -60,7 +60,7 @@ export default function OnboardingPage() {
             />
 
             {state?.error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3.5 py-2.5">
+              <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg px-3.5 py-2.5">
                 {state.error}
               </p>
             )}

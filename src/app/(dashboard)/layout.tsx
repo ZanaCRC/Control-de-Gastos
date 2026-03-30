@@ -6,6 +6,7 @@ import { BottomNav } from "@/components/navigation/BottomNav";
 import { ToastProvider } from "@/components/ui/Toast";
 import { TopLoader } from "@/components/ui/TopLoader";
 import { LogoutButton } from "@/components/navigation/LogoutButton";
+import { ThemeToggle } from "@/components/navigation/ThemeToggle";
 
 export default async function DashboardLayout({
   children,
@@ -36,21 +37,22 @@ export default async function DashboardLayout({
   return (
     <ToastProvider>
       <TopLoader />
-      <div className="flex h-screen bg-zinc-50">
+      <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950">
         <Sidebar />
 
         <div className="flex flex-1 flex-col overflow-hidden">
           {/* Mobile header */}
-          <header className="flex h-14 items-center justify-between border-b border-zinc-200 bg-white md:h-16 md:px-6">
+          <header className="flex h-14 items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 md:h-16 md:px-6">
             <Image src="/logo.png" alt="Finzo" width={150} height={50} className="md:hidden" priority />
 
             <div className="hidden md:block">
               {/* Spacer for desktop since sidebar has the title */}
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-zinc-500 hidden sm:inline">
+            <div className="flex items-center gap-1 sm:gap-3">
+              <span className="text-sm text-zinc-500 dark:text-zinc-400 hidden sm:inline">
                 {displayName}
               </span>
+              <ThemeToggle />
               <LogoutButton />
             </div>
           </header>

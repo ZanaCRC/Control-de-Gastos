@@ -59,7 +59,7 @@ export default async function BudgetsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-zinc-900">Presupuestos</h1>
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Presupuestos</h1>
 
       {budgetsWithProgress.length === 0 ? (
         <EmptyState
@@ -90,19 +90,19 @@ export default async function BudgetsPage() {
                       className="h-3 w-3 rounded-full shrink-0"
                       style={{ backgroundColor: cat?.color ?? "#71717a" }}
                     />
-                    <span className="text-sm font-medium text-zinc-900">
+                    <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                       {cat?.name ?? "Categoría"}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 ml-5 sm:ml-0">
-                    <span className="text-xs sm:text-sm text-zinc-500 truncate">
+                    <span className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 truncate">
                       {formatCurrency(budget.spent, defaultCurrency)} /{" "}
                       {formatCurrency(budget.amount_limit, defaultCurrency)}
                     </span>
                     <DeleteBudgetButton id={budget.id} />
                   </div>
                 </div>
-                <div className="h-2 rounded-full bg-zinc-100">
+                <div className="h-2 rounded-full bg-zinc-100 dark:bg-zinc-800">
                   <div
                     className="h-2 rounded-full transition-all"
                     style={{
@@ -122,7 +122,7 @@ export default async function BudgetsPage() {
 
       {/* Form para crear */}
       <Card>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
           Nuevo presupuesto
         </h3>
         <BudgetForm categories={categories ?? []} />

@@ -77,8 +77,8 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden md:flex md:w-56 md:flex-col md:border-r md:border-zinc-200 md:bg-white">
-      <div className="flex h-16 items-center border-b border-zinc-200 px-5">
+    <aside className="hidden md:flex md:w-56 md:flex-col md:border-r md:border-zinc-200 dark:md:border-zinc-800 md:bg-white dark:md:bg-zinc-950">
+      <div className="flex h-16 items-center border-b border-zinc-200 dark:border-zinc-800 px-5">
         <Image src="/logo.png" alt="Finzo" width={130} height={40} priority />
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
@@ -93,8 +93,8 @@ export function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
                 isActive
-                  ? "bg-zinc-100 text-zinc-900"
-                  : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 active:bg-zinc-100"
+                  ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                  : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 hover:text-zinc-900 dark:hover:text-zinc-100 active:bg-zinc-100 dark:active:bg-zinc-800"
               }`}
             >
               {item.icon}

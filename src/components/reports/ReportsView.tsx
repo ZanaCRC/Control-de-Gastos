@@ -119,7 +119,7 @@ export function ReportsView({ transactions, currency }: Props) {
     <div className="space-y-6">
       {/* Monthly income vs expenses */}
       <Card>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
           Ingresos vs Gastos por mes
         </h3>
         <div className="h-56 sm:h-64 -ml-2 sm:ml-0">
@@ -146,7 +146,7 @@ export function ReportsView({ transactions, currency }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Category pie chart */}
         <Card>
-          <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
             Distribución por categoría (mes actual)
           </h3>
           {categoryData.length === 0 ? (
@@ -188,7 +188,7 @@ export function ReportsView({ transactions, currency }: Props) {
 
         {/* Top categories ranking */}
         <Card>
-          <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
             Top categorías
           </h3>
           {topCategories.length === 0 ? (
@@ -213,13 +213,13 @@ export function ReportsView({ transactions, currency }: Props) {
                           className="h-2.5 w-2.5 rounded-full"
                           style={{ backgroundColor: cat.color }}
                         />
-                        <span className="text-zinc-700">{cat.name}</span>
+                        <span className="text-zinc-700 dark:text-zinc-300">{cat.name}</span>
                       </div>
-                      <span className="font-medium text-zinc-900">
+                      <span className="font-medium text-zinc-900 dark:text-zinc-100">
                         {formatCurrency(cat.value, currency)}
                       </span>
                     </div>
-                    <div className="h-1.5 rounded-full bg-zinc-100 ml-6">
+                    <div className="h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 ml-6">
                       <div
                         className="h-1.5 rounded-full"
                         style={{
@@ -238,7 +238,7 @@ export function ReportsView({ transactions, currency }: Props) {
 
       {/* Daily spending trend */}
       <Card>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
           Tendencia de gastos diarios (mes actual)
         </h3>
         {dailyTrend.length === 0 ? (

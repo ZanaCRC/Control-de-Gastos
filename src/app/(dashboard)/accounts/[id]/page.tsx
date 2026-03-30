@@ -43,15 +43,15 @@ export default async function AccountDetailPage({ params }: Props) {
       <div className="flex items-center gap-3">
         <BackButton href="/accounts" />
         <div className="flex-1 min-w-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 truncate">{account.name}</h1>
-          <p className="text-sm text-zinc-500">{account.currency}</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 truncate">{account.name}</h1>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">{account.currency}</p>
         </div>
         <DeleteAccountButton id={account.id} name={account.name} />
       </div>
 
       {/* Balance */}
-      <Card className="bg-zinc-900 text-white border-zinc-800">
-        <p className="text-sm text-zinc-400">Balance</p>
+      <Card className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-800">
+        <p className="text-sm text-zinc-400 dark:text-zinc-500">Balance</p>
         <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
           {formatCurrency(account.balance, account.currency)}
         </p>
@@ -60,13 +60,13 @@ export default async function AccountDetailPage({ params }: Props) {
       {/* Month summary */}
       <div className="grid grid-cols-2 gap-3">
         <Card className="p-4">
-          <p className="text-xs text-zinc-500">Ingresos del mes</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">Ingresos del mes</p>
           <p className="text-lg font-bold text-emerald-600 mt-0.5">
             {formatCurrency(monthIncome, account.currency)}
           </p>
         </Card>
         <Card className="p-4">
-          <p className="text-xs text-zinc-500">Gastos del mes</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">Gastos del mes</p>
           <p className="text-lg font-bold text-red-600 mt-0.5">
             {formatCurrency(monthExpenses, account.currency)}
           </p>
@@ -75,7 +75,7 @@ export default async function AccountDetailPage({ params }: Props) {
 
       {/* Transactions this month */}
       <div>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-3">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-3">
           Transacciones del mes
         </h3>
         {txList.length === 0 ? (
@@ -83,7 +83,7 @@ export default async function AccountDetailPage({ params }: Props) {
             Sin transacciones este mes.
           </p>
         ) : (
-          <Card className="divide-y divide-zinc-100 p-0">
+          <Card className="divide-y divide-zinc-100 dark:divide-zinc-800 p-0">
             {txList.map((t) => {
               const cat = t.categories as { name: string; color: string } | null;
               return (
@@ -102,7 +102,7 @@ export default async function AccountDetailPage({ params }: Props) {
                       {(cat?.name ?? "?")[0]}
                     </span>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-zinc-900 truncate">
+                      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
                         {t.description || cat?.name || "Transacción"}
                       </p>
                       <p className="text-xs text-zinc-400">

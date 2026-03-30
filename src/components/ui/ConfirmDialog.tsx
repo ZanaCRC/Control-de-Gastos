@@ -47,13 +47,13 @@ export function ConfirmDialog({
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="fixed inset-0 m-auto w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-zinc-200 bg-white p-0 shadow-lg backdrop:bg-black/40"
+      className="fixed inset-0 m-auto w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-0 shadow-lg backdrop:bg-black/40"
     >
       <div className="px-5 pt-5 pb-2 sm:px-6 sm:pt-6">
         <div className="flex items-start gap-3">
           <div
             className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-              variant === "danger" ? "bg-red-50" : "bg-zinc-100"
+              variant === "danger" ? "bg-red-50 dark:bg-red-950" : "bg-zinc-100 dark:bg-zinc-800"
             }`}
           >
             {variant === "danger" ? (
@@ -93,8 +93,8 @@ export function ConfirmDialog({
             )}
           </div>
           <div className="min-w-0">
-            <h3 className="text-base font-semibold text-zinc-900">{title}</h3>
-            <p className="mt-1 text-sm text-zinc-500">{description}</p>
+            <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">{title}</h3>
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{description}</p>
           </div>
         </div>
       </div>

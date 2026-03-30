@@ -83,10 +83,10 @@ export default async function TransactionsPage({ searchParams }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-zinc-900">Transacciones</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Transacciones</h1>
         <Link
           href="/transactions/new"
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-700 active:bg-zinc-800 transition"
+          className="rounded-lg bg-zinc-900 dark:bg-zinc-100 px-4 py-2 text-sm font-semibold text-white dark:text-zinc-900 hover:bg-zinc-700 dark:hover:bg-zinc-300 active:bg-zinc-800 transition"
         >
           + Nueva
         </Link>
@@ -104,19 +104,19 @@ export default async function TransactionsPage({ searchParams }: Props) {
       {/* Resumen */}
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
         <Card className="p-3 sm:p-4">
-          <p className="text-xs text-zinc-500">Ingresos</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">Ingresos</p>
           <p className="text-xs sm:text-sm font-bold text-emerald-600 mt-0.5 truncate">
             {formatCurrency(totalIncome, defaultCurrency)}
           </p>
         </Card>
         <Card className="p-3 sm:p-4">
-          <p className="text-xs text-zinc-500">Gastos</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">Gastos</p>
           <p className="text-xs sm:text-sm font-bold text-red-600 mt-0.5 truncate">
             {formatCurrency(totalExpenses, defaultCurrency)}
           </p>
         </Card>
         <Card className="p-3 sm:p-4">
-          <p className="text-xs text-zinc-500">Balance</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">Balance</p>
           <p className={`text-xs sm:text-sm font-bold mt-0.5 truncate ${totalIncome - totalExpenses >= 0 ? "text-emerald-600" : "text-red-600"}`}>
             {formatCurrency(totalIncome - totalExpenses, defaultCurrency)}
           </p>
@@ -131,21 +131,21 @@ export default async function TransactionsPage({ searchParams }: Props) {
           action={
             <Link
               href="/transactions/new"
-              className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-zinc-700 active:bg-zinc-800 transition"
+              className="rounded-lg bg-zinc-900 dark:bg-zinc-100 px-4 py-2.5 text-sm font-semibold text-white dark:text-zinc-900 hover:bg-zinc-700 dark:hover:bg-zinc-300 active:bg-zinc-800 transition"
             >
               Agregar transacción
             </Link>
           }
         />
       ) : (
-        <Card className="divide-y divide-zinc-100 p-0">
+        <Card className="divide-y divide-zinc-100 dark:divide-zinc-800 p-0">
           {txList.map((t) => {
             const cat = t.categories as { id: string; name: string; color: string } | null;
             const acc = t.accounts as { id: string; name: string; currency: string } | null;
             return (
               <div
                 key={t.id}
-                className="flex items-center justify-between px-4 py-3 hover:bg-zinc-50 active:bg-zinc-100 transition group"
+                className="flex items-center justify-between px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 active:bg-zinc-100 dark:active:bg-zinc-800 transition group"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <span
@@ -158,7 +158,7 @@ export default async function TransactionsPage({ searchParams }: Props) {
                     {(cat?.name ?? "?")[0]}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-zinc-900 truncate">
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
                       {t.description || cat?.name || "Transacción"}
                     </p>
                     <p className="text-xs text-zinc-400">

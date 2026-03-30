@@ -32,7 +32,7 @@ export function DeleteBudgetButton({ id }: { id: string }) {
       <button
         onClick={() => setOpen(true)}
         aria-label="Eliminar presupuesto"
-        className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 active:bg-red-100 transition"
+        className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950 active:bg-red-100 dark:active:bg-red-900 transition"
       >
         <FontAwesomeIcon icon={faTrash} className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
       </button>

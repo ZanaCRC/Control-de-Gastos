@@ -25,7 +25,7 @@ export function DeleteAccountButton({ id, name }: { id: string; name: string }) 
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-lg px-3 py-1.5 text-sm text-red-600 cursor-pointer hover:bg-red-50 active:bg-red-100 transition"
+        className="rounded-lg px-3 py-1.5 text-sm text-red-600 cursor-pointer hover:bg-red-50 dark:hover:bg-red-950 active:bg-red-100 dark:active:bg-red-900 transition"
       >
         Eliminar
       </button>

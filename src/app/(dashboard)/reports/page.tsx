@@ -40,7 +40,7 @@ export default async function ReportsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-zinc-900">Reportes</h1>
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Reportes</h1>
       <ReportsView
         transactions={transactions ?? []}
         currency={defaultCurrency}

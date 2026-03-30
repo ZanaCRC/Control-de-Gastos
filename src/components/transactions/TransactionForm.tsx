@@ -55,17 +55,17 @@ export function TransactionForm({
     <form action={handleSubmit} className="space-y-5">
       {/* Type toggle */}
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
           Tipo
         </label>
-        <div className="flex rounded-lg border border-zinc-200 p-0.5">
+        <div className="flex rounded-lg border border-zinc-200 dark:border-zinc-800 p-0.5">
           <button
             type="button"
             onClick={() => setType("expense")}
             className={`flex-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition ${
               type === "expense"
                 ? "bg-red-50 text-red-700"
-                : "text-zinc-500 hover:text-zinc-700 active:bg-zinc-50"
+                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 active:bg-zinc-50 dark:active:bg-zinc-800"
             }`}
           >
             Gasto
@@ -76,7 +76,7 @@ export function TransactionForm({
             className={`flex-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition ${
               type === "income"
                 ? "bg-emerald-50 text-emerald-700"
-                : "text-zinc-500 hover:text-zinc-700 active:bg-zinc-50"
+                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 active:bg-zinc-50 dark:active:bg-zinc-800"
             }`}
           >
             Ingreso

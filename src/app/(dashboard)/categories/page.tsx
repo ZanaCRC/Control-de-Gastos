@@ -16,7 +16,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-zinc-900">Categorías</h1>
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Categorías</h1>
 
       <Card>
         <div className="flex flex-wrap gap-2 mb-4">

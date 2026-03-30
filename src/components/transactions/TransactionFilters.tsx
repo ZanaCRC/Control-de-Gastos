@@ -48,7 +48,7 @@ export function TransactionFilters({
         aria-label="Filtrar por tipo"
         value={currentFilters.type || "all"}
         onChange={(e) => updateFilter("type", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:py-1.5 text-sm text-zinc-700 outline-hidden"
+        className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-2 sm:py-1.5 text-sm text-zinc-700 dark:text-zinc-300 outline-hidden"
       >
         <option value="all">Todos</option>
         <option value="expense">Gastos</option>
@@ -61,7 +61,7 @@ export function TransactionFilters({
           aria-label="Filtrar por cuenta"
           value={currentFilters.account || ""}
           onChange={(e) => updateFilter("account", e.target.value)}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:py-1.5 text-sm text-zinc-700 outline-hidden"
+          className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-2 sm:py-1.5 text-sm text-zinc-700 dark:text-zinc-300 outline-hidden"
         >
           <option value="">Todas las cuentas</option>
           {accounts.map((a) => (
@@ -77,7 +77,7 @@ export function TransactionFilters({
         aria-label="Filtrar por categoría"
         value={currentFilters.category || ""}
         onChange={(e) => updateFilter("category", e.target.value)}
-        className="col-span-2 sm:col-span-1 rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:py-1.5 text-sm text-zinc-700 outline-hidden"
+        className="col-span-2 sm:col-span-1 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-2 sm:py-1.5 text-sm text-zinc-700 dark:text-zinc-300 outline-hidden"
       >
         <option value="">Todas las categorías</option>
         {categories.map((c) => (
@@ -93,14 +93,14 @@ export function TransactionFilters({
         aria-label="Fecha desde"
         value={currentFilters.from || defaultStart}
         onChange={(e) => updateFilter("from", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:py-1.5 text-sm text-zinc-700 outline-hidden"
+        className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-2 sm:py-1.5 text-sm text-zinc-700 dark:text-zinc-300 outline-hidden"
       />
       <input
         type="date"
         aria-label="Fecha hasta"
         value={currentFilters.to || defaultEnd}
         onChange={(e) => updateFilter("to", e.target.value)}
-        className="rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:py-1.5 text-sm text-zinc-700 outline-hidden"
+        className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-2 sm:py-1.5 text-sm text-zinc-700 dark:text-zinc-300 outline-hidden"
       />
     </div>
   );

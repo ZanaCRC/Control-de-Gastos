@@ -52,8 +52,8 @@ export default async function CreditCardDetailPage({ params }: Props) {
       <div className="flex items-center gap-3">
         <BackButton href="/credit-cards" />
         <div className="flex-1 min-w-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 truncate">{card.name}</h1>
-          <p className="text-sm text-zinc-500">
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 truncate">{card.name}</h1>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
             Corte: día {card.cut_off_day} &middot; Pago: día {card.payment_due_day}
           </p>
         </div>
@@ -61,19 +61,19 @@ export default async function CreditCardDetailPage({ params }: Props) {
       </div>
 
       {/* Period info */}
-      <Card className="bg-zinc-900 text-white border-zinc-800">
-        <p className="text-sm text-zinc-400">Total período actual</p>
+      <Card className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-800 dark:border-zinc-300">
+        <p className="text-sm text-zinc-400 dark:text-zinc-500">Total período actual</p>
         <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
           {formatCurrency(totalPeriod, defaultCurrency)}
         </p>
-        <p className="text-xs text-zinc-500 mt-2">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">
           {formatDate(start)} — {formatDate(end)}
         </p>
       </Card>
 
       {/* Transactions */}
       <div>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-3">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-3">
           Transacciones del período
         </h3>
         {txList.length === 0 ? (
@@ -81,7 +81,7 @@ export default async function CreditCardDetailPage({ params }: Props) {
             Sin transacciones en este período.
           </p>
         ) : (
-          <Card className="divide-y divide-zinc-100 p-0">
+          <Card className="divide-y divide-zinc-100 dark:divide-zinc-800 p-0">
             {txList.map((t) => {
               const cat = t.categories as { name: string; color: string } | null;
               return (
@@ -100,7 +100,7 @@ export default async function CreditCardDetailPage({ params }: Props) {
                       {(cat?.name ?? "?")[0]}
                     </span>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-zinc-900 truncate">
+                      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
                         {t.description || cat?.name || "Transacción"}
                       </p>
                       <p className="text-xs text-zinc-400">

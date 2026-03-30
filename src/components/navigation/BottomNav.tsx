@@ -96,7 +96,7 @@ export function BottomNav() {
 
       {/* "Más" menu */}
       {moreOpen && (
-        <div className="fixed bottom-16 right-2 z-50 mb-1 w-56 rounded-xl border border-zinc-200 bg-white py-1 shadow-lg md:hidden pb-[env(safe-area-inset-bottom)]">
+        <div className="fixed bottom-16 right-2 z-50 mb-1 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 py-1 shadow-lg md:hidden pb-[env(safe-area-inset-bottom)]">
           {moreNavItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             return (
@@ -104,10 +104,10 @@ export function BottomNav() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMoreOpen(false)}
-                className={`flex items-center gap-3 px-4 py-2.5 text-sm transition active:bg-zinc-100 ${
+                className={`flex items-center gap-3 px-4 py-2.5 text-sm transition active:bg-zinc-100 dark:active:bg-zinc-800 ${
                   isActive
-                    ? "text-zinc-900 font-medium bg-zinc-50"
-                    : "text-zinc-600 hover:bg-zinc-50"
+                    ? "text-zinc-900 dark:text-zinc-100 font-medium bg-zinc-50 dark:bg-zinc-800"
+                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800"
                 }`}
               >
                 {item.icon}
@@ -119,7 +119,7 @@ export function BottomNav() {
       )}
 
       {/* Bottom bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-200 bg-white md:hidden pb-[env(safe-area-inset-bottom)]">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 md:hidden pb-[env(safe-area-inset-bottom)]">
         <div className="flex items-center justify-around py-2">
           {mainNavItems.map((item) => {
             const isActive =
@@ -132,8 +132,8 @@ export function BottomNav() {
                 href={item.href}
                 className={`flex flex-col items-center gap-0.5 px-3 py-1 text-xs transition active:scale-95 ${
                   isActive
-                    ? "text-zinc-900 font-medium"
-                    : "text-zinc-400 active:text-zinc-600"
+                    ? "text-zinc-900 dark:text-zinc-100 font-medium"
+                    : "text-zinc-400 active:text-zinc-600 dark:active:text-zinc-300"
                 }`}
               >
                 {item.icon}
@@ -147,8 +147,8 @@ export function BottomNav() {
             onClick={() => setMoreOpen((prev) => !prev)}
             className={`flex flex-col items-center gap-0.5 px-3 py-1 text-xs transition active:scale-95 ${
               isMoreActive || moreOpen
-                ? "text-zinc-900 font-medium"
-                : "text-zinc-400 active:text-zinc-600"
+                ? "text-zinc-900 dark:text-zinc-100 font-medium"
+                : "text-zinc-400 active:text-zinc-600 dark:active:text-zinc-300"
             }`}
           >
             <svg width="22" height="22" viewBox="0 0 20 20" fill="none">

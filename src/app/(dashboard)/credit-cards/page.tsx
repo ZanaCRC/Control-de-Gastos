@@ -46,7 +46,7 @@ export default async function CreditCardsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-zinc-900">Tarjetas de crédito</h1>
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Tarjetas de crédito</h1>
 
       {(creditCards ?? []).length === 0 ? (
         <EmptyState
@@ -57,13 +57,13 @@ export default async function CreditCardsPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           {(creditCards ?? []).map((card) => (
             <Link key={card.id} href={`/credit-cards/${card.id}`}>
-              <Card className="hover:border-zinc-300 active:bg-zinc-50 transition cursor-pointer">
-                <p className="text-sm font-medium text-zinc-900">{card.name}</p>
+              <Card className="hover:border-zinc-300 dark:hover:border-zinc-600 active:bg-zinc-50 dark:active:bg-zinc-800 transition cursor-pointer">
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{card.name}</p>
                 <p className="text-xs text-zinc-400 mt-1">
                   Corte: día {card.cut_off_day} &middot; Pago: día{" "}
                   {card.payment_due_day}
                 </p>
-                <p className="text-lg font-bold text-zinc-900 mt-2">
+                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100 mt-2">
                   {formatCurrency(cardTotals[card.id] ?? 0, defaultCurrency)}
                 </p>
                 <p className="text-xs text-zinc-400">Período actual</p>
@@ -75,7 +75,7 @@ export default async function CreditCardsPage() {
 
       {/* Form para agregar */}
       <Card>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
           Agregar tarjeta
         </h3>
         <CreditCardForm />

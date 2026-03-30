@@ -79,18 +79,18 @@ export default async function DashboardPage() {
 
       {/* Resumen del mes */}
       <div>
-        <h2 className="text-lg font-semibold text-zinc-900 mb-3 capitalize">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-3 capitalize">
           {getMonthName()}
         </h2>
         <div className="grid grid-cols-2 gap-3">
           <Card>
-            <p className="text-sm text-zinc-500">Ingresos</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">Ingresos</p>
             <p className="text-lg sm:text-xl font-bold text-emerald-600 mt-1 truncate">
               {formatCurrency(totalIncome, defaultCurrency)}
             </p>
           </Card>
           <Card>
-            <p className="text-sm text-zinc-500">Gastos</p>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">Gastos</p>
             <p className="text-lg sm:text-xl font-bold text-red-600 mt-1 truncate">
               {formatCurrency(totalExpenses, defaultCurrency)}
             </p>
@@ -101,7 +101,7 @@ export default async function DashboardPage() {
       {/* Gasto por categoría */}
       {categoryList.length > 0 && (
         <Card>
-          <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
             Gastos por categoría
           </h3>
           <div className="space-y-3">
@@ -118,13 +118,13 @@ export default async function DashboardPage() {
                         className="h-2.5 w-2.5 rounded-full"
                         style={{ backgroundColor: cat.color }}
                       />
-                      <span className="text-zinc-700">{cat.name}</span>
+                      <span className="text-zinc-700 dark:text-zinc-300">{cat.name}</span>
                     </div>
-                    <span className="font-medium text-zinc-900">
+                    <span className="font-medium text-zinc-900 dark:text-zinc-100">
                       {formatCurrency(cat.total, defaultCurrency)}
                     </span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-zinc-100">
+                  <div className="h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800">
                     <div
                       className="h-1.5 rounded-full transition-all"
                       style={{
@@ -143,12 +143,12 @@ export default async function DashboardPage() {
       {/* Últimas transacciones */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-semibold text-zinc-900">
+          <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
             Últimas transacciones
           </h3>
           <Link
             href="/transactions"
-            className="text-sm text-zinc-500 hover:text-zinc-900 transition"
+            className="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition"
           >
             Ver todas
           </Link>
@@ -167,7 +167,7 @@ export default async function DashboardPage() {
             }
           />
         ) : (
-          <Card className="divide-y divide-zinc-100 p-0">
+          <Card className="divide-y divide-zinc-100 dark:divide-zinc-800 p-0">
             {recentTransactions.map((t) => (
               <div
                 key={t.id}
@@ -184,7 +184,7 @@ export default async function DashboardPage() {
                     {((t.categories as { name: string } | null)?.name ?? "?")[0]}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-zinc-900 truncate">
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
                       {t.description || (t.categories as { name: string } | null)?.name || "Transacción"}
                     </p>
                     <p className="text-xs text-zinc-400">
@@ -210,7 +210,7 @@ export default async function DashboardPage() {
       <Link
         href="/transactions/new"
         aria-label="Agregar nueva transacción"
-        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg hover:bg-zinc-700 active:bg-zinc-800 active:scale-95 transition"
+        className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-lg hover:bg-zinc-700 dark:hover:bg-zinc-300 active:bg-zinc-800 dark:active:bg-zinc-200 active:scale-95 transition"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path

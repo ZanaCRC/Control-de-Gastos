@@ -34,7 +34,7 @@ export function TopLoader() {
   return (
     <div className="fixed top-0 left-0 right-0 z-[100] h-0.5">
       <div
-        className="h-full bg-zinc-900 transition-all duration-200 ease-out"
+        className="h-full bg-zinc-900 dark:bg-zinc-100 transition-all duration-200 ease-out"
         style={{ width: `${progress}%` }}
       />
     </div>

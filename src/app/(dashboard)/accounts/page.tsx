@@ -20,13 +20,13 @@ export default async function AccountsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-zinc-900">Cuentas</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Cuentas</h1>
       </div>
 
       {/* Balance total */}
-      <Card className="bg-zinc-900 text-white border-zinc-800">
-        <p className="text-sm text-zinc-400">Balance total</p>
-        <p className="text-2xl sm:text-3xl font-bold mt-1 break-words">
+      <Card className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-800">
+        <p className="text-sm text-zinc-400 dark:text-zinc-500">Balance total</p>
+        <p className="text-2xl sm:text-3xl font-bold mt-1 break-words dark:text-white">
           {formatCurrency(totalBalance, accounts?.[0]?.currency ?? "CRC")}
         </p>
       </Card>
@@ -35,10 +35,10 @@ export default async function AccountsPage() {
       <div className="grid gap-3 sm:grid-cols-2">
         {(accounts ?? []).map((account) => (
           <Link key={account.id} href={`/accounts/${account.id}`}>
-            <Card className="hover:border-zinc-300 active:bg-zinc-50 transition cursor-pointer">
+            <Card className="hover:border-zinc-300 dark:hover:border-zinc-600 active:bg-zinc-50 dark:active:bg-zinc-800 transition cursor-pointer">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-zinc-900">
+                  <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                     {account.name}
                   </p>
                   <p className="text-xs text-zinc-400 mt-0.5">
@@ -47,7 +47,7 @@ export default async function AccountsPage() {
                 </div>
                 <p
                   className={`text-lg font-bold ${
-                    account.balance >= 0 ? "text-zinc-900" : "text-red-600"
+                    account.balance >= 0 ? "text-zinc-900 dark:text-zinc-100" : "text-red-600"
                   }`}
                 >
                   {formatCurrency(account.balance, account.currency)}
@@ -60,7 +60,7 @@ export default async function AccountsPage() {
 
       {/* Nueva cuenta */}
       <Card>
-        <h3 className="text-sm font-semibold text-zinc-900 mb-4">
+        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
           Agregar cuenta
         </h3>
         <NewAccountForm />

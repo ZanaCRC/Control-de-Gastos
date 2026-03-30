@@ -72,12 +72,12 @@ export function CategoryManager({ categories }: Props) {
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: cat.color ?? "#71717a" }}
               />
-              <span className="text-sm text-zinc-700">{cat.name}</span>
+              <span className="text-sm text-zinc-700 dark:text-zinc-300">{cat.name}</span>
             </div>
             <button
               onClick={() => setDeleteTarget({ id: cat.id, name: cat.name })}
               aria-label={`Eliminar ${cat.name}`}
-              className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 active:bg-red-100 md:opacity-0 md:group-hover:opacity-100 transition-all"
+              className="rounded-lg p-2.5 sm:p-1.5 text-zinc-400 cursor-pointer hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950 active:bg-red-100 dark:active:bg-red-900 md:opacity-0 md:group-hover:opacity-100 transition-all"
             >
               <FontAwesomeIcon icon={faTrash} className="w-3.5 h-3.5 sm:w-3 sm:h-3" />
             </button>
@@ -95,7 +95,7 @@ export function CategoryManager({ categories }: Props) {
             required
           />
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1.5">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
               Color
             </label>
             <div className="flex flex-wrap gap-2">
@@ -106,7 +106,7 @@ export function CategoryManager({ categories }: Props) {
                   onClick={() => setSelectedColor(color)}
                   className={`h-7 w-7 rounded-full border-2 cursor-pointer transition hover:scale-110 active:scale-95 ${
                     selectedColor === color
-                      ? "border-zinc-900 scale-110"
+                      ? "border-zinc-900 dark:border-zinc-100 scale-110"
                       : "border-transparent"
                   }`}
                   style={{ backgroundColor: color }}
