@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -36,23 +36,18 @@ export function TransactionForm({
   const [selectedAccount, setSelectedAccount] = useState(
     defaultValues.account_id || accounts[0]?.id || ""
   );
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-
-  async function handleSubmit(formData: FormData) {
-    setLoading(true);
-    setError(null);
-    formData.set("type", type);
-    const result = await action(formData);
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-    }
-  }
+  const [state, formAction, isPending] = useActionState(
+    async (prevState: { error?: string } | null, formData: FormData) => {
+      formData.set("type", type);
+      const result = await action(formData);
+      return result || null;
+    },
+    null
+  );
 
   return (
-    <form action={handleSubmit} className="space-y-5">
+    <form action={formAction} className="space-y-5">
       {/* Type toggle */}
       <div>
         <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
@@ -159,14 +154,14 @@ export function TransactionForm({
         />
       )}
 
-      {error && (
+      {state?.error && (
         <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3.5 py-2.5">
-          {error}
+          {state.error}
         </p>
       )}
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Guardando..." : submitLabel}
+      <Button type="submit" disabled={isPending} className="w-full">
+        {isPending ? "Guardando..." : submitLabel}
       </Button>
     </form>
   );
