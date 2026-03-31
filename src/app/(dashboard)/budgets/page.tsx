@@ -25,15 +25,12 @@ export default async function BudgetsPage() {
 
   const categoryIds = (categories ?? []).map((c) => c.id);
 
-  // Get active budgets
-  const today = new Date().toISOString().split("T")[0];
+  // Get all budgets
   const { data: budgets } = categoryIds.length
     ? await supabase
         .from("budgets")
         .select("*, categories(id, name, color)")
         .in("category_id", categoryIds)
-        .lte("start_date", today)
-        .gte("end_date", today)
         .order("created_at", { ascending: false })
     : { data: [] };
 
